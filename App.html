@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#51304E">
+<title>My Recovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+VARIABLES
+============================================================ */
+:root{
+--primary:#51304E;
+--primary-dark:#3B223A;
+--primary-mid:#6B4166;
+--primary-light:#EFE3EB;
+--primary-soft:#E5D3E1;
+--primary-tint:#F8F2F6;
+--secondary:#F4A7B9;
+--bg-outer:#E6E2D2;
+--bg:#EFEEDF;
+--surface:#F7F7EF;
+--surface-raised:#FCFBF4;
+--text:#2A2029;
+--muted:#7A6E7E;
+--border:#E0DCC9;
+--border-strong:#CFCAB3;
+--danger:#C9353F;
+--danger-bg:#FBE8EA;
+--danger-border:#F1C9CC;
+--success:#4A9B6E;
+--success-bg:#E5F3E9;
+--success-border:#C6E5D2;
+--info:#4A7DB0;
+--warning:#C78A3E;
+--warning-bg:#FDF3E3;
+--warning-border:#F0DCBC;
+--radius-lg:20px;
+--radius-md:16px;
+--radius-sm:12px;
+--shadow-sm:0 1px 2px rgba(81,48,78,.06);
+--shadow-md:0 4px 16px rgba(81,48,78,.08);
+--shadow-lg:0 10px 30px rgba(81,48,78,.14);
+--nav-h:72px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{
+font-family:'Inter','Cairo',system-ui,-apple-system,sans-serif;
+background:var(--bg-outer);color:var(--text);line-height:1.5;
+min-height:100vh;overflow-x:hidden;
+}
+html[dir="rtl"] body{font-family:'Cairo','Inter',system-ui,sans-serif;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+input,select,textarea{font-family:inherit;font-size:15px;color:var(--text);}
+ul{list-style:none;}
+.hidden{display:none !important;}
+
+.app-shell{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;box-shadow:0 0 60px rgba(81,48,78,.14);}
+
+/* ============================================================
+HEADER
+============================================================ */
+.app-header{
+position:sticky;top:0;z-index:50;
+background:linear-gradient(135deg,var(--primary-mid) 0%,var(--primary) 55%,var(--primary-dark) 100%);
+padding:14px 16px;padding-top:calc(14px + env(safe-area-inset-top));
+box-shadow:0 2px 14px rgba(81,48,78,.28);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;}
+.brand-mark{width:38px;height:38px;flex-shrink:0;display:grid;place-items:center;background:rgba(247,247,239,.18);border-radius:12px;font-size:13px;font-weight:800;color:#F7F7EF;border:1px solid rgba(247,247,239,.3);letter-spacing:.5px;}
+.brand-text{display:flex;flex-direction:column;min-width:0;}
+.brand-title{font-size:15px;font-weight:700;color:#F7F7EF;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.brand-sub{font-size:11px;color:rgba(247,247,239,.72);font-weight:500;}
+.lang-btn{display:flex;align-items:center;gap:6px;background:rgba(247,247,239,.16);border:1px solid rgba(247,247,239,.28);color:#F7F7EF;font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:999px;flex-shrink:0;transition:.18s;}
+.lang-btn:active{transform:scale(.95);background:rgba(247,247,239,.26);}
+.lang-icon{font-size:13px;}
+
+/* ============================================================
+MAIN
+============================================================ */
+.app-main{padding:16px 16px calc(var(--nav-h) + 32px);min-height:calc(100vh - 66px);}
+.screen{display:none;animation:fadeUp .28s ease;}
+.screen.is-active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.page-head{margin-bottom:16px;}
+.page-title{font-size:24px;font-weight:800;letter-spacing:-.5px;}
+.page-sub{font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.45;}
+
+/* ============================================================
+HERO
+============================================================ */
+.hero-card{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--primary-mid) 0%,var(--primary) 55%,var(--primary-dark) 100%);border-radius:var(--radius-lg);padding:26px 22px;color:#F7F7EF;box-shadow:var(--shadow-lg);margin-bottom:16px;}
+.hero-glow{position:absolute;top:-60px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(244,167,185,.28),transparent 70%);pointer-events:none;}
+.hero-title{font-size:22px;font-weight:800;letter-spacing:-.4px;position:relative;}
+.hero-sub{font-size:13.5px;color:rgba(247,247,239,.85);margin-top:8px;line-height:1.5;position:relative;}
+
+/* ============================================================
+PROGRESS
+============================================================ */
+.progress-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:20px;box-shadow:var(--shadow-sm);}
+.progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.progress-label{font-size:12.5px;font-weight:600;color:var(--muted);}
+.progress-count{font-size:12.5px;color:var(--muted);}
+.progress-count strong{font-weight:800;color:var(--primary);font-size:14px;}
+.progress-bar{height:10px;border-radius:999px;background:var(--primary-light);overflow:hidden;}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary-mid),var(--primary));width:0%;transition:width .6s cubic-bezier(.32,.72,0,1);}
+.progress-sub{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:11.5px;color:var(--muted);}
+.link-btn{font-size:11.5px;font-weight:700;color:var(--primary);text-decoration:underline;text-underline-offset:2px;}
+
+/* ============================================================
+SECTIONS & QUICK CARDS
+============================================================ */
+.section{margin-bottom:24px;}
+.section-head{margin-bottom:12px;}
+.section-head h2{font-size:15.5px;font-weight:700;letter-spacing:-.2px;}
+.section-head-row{display:flex;align-items:center;justify-content:space-between;margin-top:22px;}
+
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.quick-card{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-sm);transition:.16s;cursor:pointer;}
+.quick-card:active{transform:scale(.97);border-color:var(--primary);}
+.quick-emoji{font-size:20px;}
+
+.tip-card{display:flex;align-items:flex-start;gap:12px;background:var(--primary-tint);border:1px solid var(--primary-soft);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:24px;}
+.tip-icon{font-size:20px;flex-shrink:0;line-height:1;}
+.tip-content{flex:1;min-width:0;}
+.tip-label{font-size:10.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px;}
+.tip-text{font-size:12.5px;color:var(--text);line-height:1.55;}
+
+/* ============================================================
+CARDS
+============================================================ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm);}
+.card.soft{background:var(--primary-tint);border-color:var(--primary-soft);}
+.card.danger-soft{background:var(--danger-bg);border-color:var(--danger-border);}
+.card.warning-soft{background:var(--warning-bg);border-color:var(--warning-border);}
+.card-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--primary);}
+.card.danger-soft .card-title{color:var(--danger);}
+.card.warning-soft .card-title{color:#8A5D22;}
+.card-sub{font-size:12.5px;color:var(--muted);margin-bottom:14px;}
+.body-text{font-size:13.5px;color:#3D2E3C;line-height:1.6;}
+
+.disclaimer{background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:var(--radius-md);padding:14px 16px;font-size:12px;color:#7A5218;line-height:1.55;}
+
+/* ============================================================
+COUNTER
+============================================================ */
+.counter-card{display:flex;align-items:center;justify-content:space-between;background:var(--primary-tint);border:1px solid var(--primary-soft);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:16px;}
+.counter-left{display:flex;align-items:baseline;gap:8px;}
+.counter-num{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:-1px;}
+.counter-label{font-size:12.5px;color:var(--primary);font-weight:600;}
+.counter-phase{display:flex;flex-direction:column;align-items:flex-end;}
+.counter-phase-label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+.counter-phase-value{font-size:13px;font-weight:800;color:var(--primary);}
+
+/* ============================================================
+FILTERS
+============================================================ */
+.filter-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.filter-chip{padding:8px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap;transition:.16s;cursor:pointer;}
+.filter-chip.is-active{background:var(--primary);color:#F7F7EF;border-color:var(--primary);box-shadow:0 4px 12px rgba(81,48,78,.24);}
+
+/* ============================================================
+EXERCISES
+============================================================ */
+.exercise-list{display:flex;flex-direction:column;gap:10px;}
+.exercise-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;text-align:start;transition:.16s;box-shadow:var(--shadow-sm);width:100%;position:relative;cursor:pointer;}
+.exercise-card:active{transform:scale(.98);}
+.exercise-card.is-done{background:var(--success-bg);border-color:var(--success-border);}
+.exercise-card.is-locked{opacity:.55;background:var(--bg);border-style:dashed;}
+.exercise-card.is-locked:active{transform:none;}
+.ex-emoji{width:44px;height:44px;flex-shrink:0;display:grid;place-items:center;background:var(--primary-light);border-radius:12px;font-size:20px;}
+.exercise-card.is-done .ex-emoji{background:#D3EADB;}
+.exercise-card.is-locked .ex-emoji{background:#E8E5D8;filter:grayscale(.6);}
+.ex-body{flex:1;min-width:0;}
+.ex-name{font-size:14px;font-weight:700;margin-bottom:2px;}
+.ex-meta{font-size:11.5px;color:var(--muted);}
+.ex-badge{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:5px;letter-spacing:.3px;text-transform:uppercase;}
+.ex-badge.locked{background:#E8E5D8;color:#8A7E80;}
+.ex-badge.past{background:var(--primary-light);color:var(--primary);}
+.ex-check{width:24px;height:24px;flex-shrink:0;border-radius:50%;border:2px solid var(--border);display:grid;place-items:center;font-size:12px;color:transparent;transition:.18s;}
+.exercise-card.is-done .ex-check{background:var(--success);border-color:var(--success);color:#fff;}
+.ex-lock{width:24px;height:24px;flex-shrink:0;display:grid;place-items:center;font-size:14px;color:var(--muted);}
+
+/* ============================================================
+ACCORDION
+============================================================ */
+.accordion{display:flex;flex-direction:column;gap:10px;}
+.acc-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);}
+.acc-head{display:flex;align-items:center;gap:12px;width:100%;padding:15px;text-align:start;cursor:pointer;}
+.acc-icon{font-size:20px;}
+.acc-title{flex:1;font-size:14px;font-weight:700;}
+.acc-arrow{font-size:14px;color:var(--muted);transition:transform .22s;}
+.acc-item.is-open .acc-arrow{transform:rotate(90deg);}
+html[dir="rtl"] .acc-item.is-open .acc-arrow{transform:rotate(-90deg);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.acc-item.is-open .acc-body{max-height:900px;}
+.acc-body-inner{padding:0 16px 16px;}
+
+.bullet-list{display:flex;flex-direction:column;gap:9px;}
+.bullet-list li{position:relative;padding-inline-start:20px;font-size:13px;line-height:1.55;color:#3D2E3C;}
+.bullet-list li::before{content:"";position:absolute;inset-inline-start:4px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--primary);}
+.card.danger-soft .bullet-list li::before{background:var(--danger);}
+.card.warning-soft .bullet-list li::before{background:var(--warning);}
+
+/* ============================================================
+TRACKER / PHASE
+============================================================ */
+.phase-card-container{background:linear-gradient(135deg,var(--primary-tint),var(--surface));border:1px solid var(--primary-soft);border-radius:var(--radius-lg);padding:16px;margin-bottom:14px;}
+.phase-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;}
+.phase-header h3{font-size:14px;font-weight:700;color:var(--primary);}
+.phase-header .hint{font-size:10.5px;color:var(--muted);font-weight:500;}
+.phase-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.phase-pills button{padding:11px 8px;border-radius:var(--radius-sm);background:var(--surface);border:1.5px solid var(--border);font-size:13px;font-weight:700;color:var(--muted);transition:.16s;cursor:pointer;}
+.phase-pills button:active{transform:scale(.96);}
+.phase-pills button.is-active{background:var(--primary);border-color:var(--primary);color:#F7F7EF;box-shadow:0 4px 12px rgba(81,48,78,.22);}
+.phase-description{font-size:11.5px;color:var(--primary);font-weight:600;text-align:center;margin-top:10px;}
+
+/* ============================================================
+FORM
+============================================================ */
+.swelling-options{display:flex;flex-direction:column;gap:8px;}
+.swelling-btn{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface-raised);border:1.5px solid var(--border);border-radius:var(--radius-sm);text-align:start;transition:.16s;cursor:pointer;}
+.swelling-btn:active{transform:scale(.98);}
+.swelling-btn.is-active{border-color:var(--primary);background:var(--primary-tint);}
+.swelling-dot{width:14px;height:14px;flex-shrink:0;border-radius:50%;margin-top:4px;box-shadow:0 0 0 3px rgba(0,0,0,.04);}
+.swelling-body{flex:1;display:flex;flex-direction:column;}
+.swelling-title{font-size:13px;font-weight:700;color:var(--text);}
+.swelling-desc{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4;}
+
+.field{margin-bottom:16px;}
+.field:last-of-type{margin-bottom:14px;}
+.field-label{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px;}
+.pain-value{font-size:15px;font-weight:800;color:var(--primary);background:var(--primary-light);padding:2px 10px;border-radius:8px;}
+.input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-raised);outline:none;transition:.16s;font-size:14px;}
+.input:focus{border-color:var(--primary);background:#FFF;box-shadow:0 0 0 3px rgba(81,48,78,.12);}
+.textarea{resize:vertical;min-height:70px;line-height:1.5;}
+select.input{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%237A6E7E' d='M6 8 0 0h12z'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-inline-end:36px;}
+html[dir="rtl"] select.input{background-position:left 14px center;}
+.slider{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:999px;background:linear-gradient(90deg,#4A9B6E,#C78A3E,#C9353F);outline:none;}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#FFF;border:3px solid var(--primary);box-shadow:0 2px 6px rgba(81,48,78,.2);cursor:pointer;}
+.slider::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#FFF;border:3px solid var(--primary);box-shadow:0 2px 6px rgba(81,48,78,.2);cursor:pointer;}
+.slider-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:6px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* ============================================================
+BUTTONS
+============================================================ */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 22px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;transition:.16s;cursor:pointer;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:linear-gradient(135deg,var(--primary-mid),var(--primary));color:#F7F7EF;width:100%;box-shadow:0 4px 14px rgba(81,48,78,.28);}
+.btn-primary:disabled,.btn-primary[disabled]{background:#BFB6BC;box-shadow:none;cursor:not-allowed;}
+.btn-ghost{background:var(--surface);border:1.5px solid var(--border);color:var(--text);}
+.btn-sm{padding:8px 14px;font-size:12px;}
+.btn-full{width:100%;margin-top:6px;}
+.btn-row{display:flex;gap:10px;margin-top:16px;}
+.btn-row .btn{flex:1;}
+
+/* ============================================================
+RECORDS
+============================================================ */
+.records-list{display:flex;flex-direction:column;gap:10px;}
+.record-card{background:var(--surface);border:1px solid var(--border);border-inline-start:4px solid var(--primary);border-radius:var(--radius-sm);padding:13px 15px;box-shadow:var(--shadow-sm);}
+.record-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.record-date{font-size:12px;font-weight:700;color:var(--primary);}
+.record-pain{font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;}
+.record-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+.tag{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--primary-light);color:var(--primary);}
+.record-notes{font-size:12px;color:var(--muted);line-height:1.5;}
+.empty-state{text-align:center;padding:32px 16px;color:var(--muted);font-size:13px;}
+.empty-state .empty-emoji{font-size:32px;display:block;margin-bottom:8px;opacity:.6;}
+
+/* ============================================================
+MENU
+============================================================ */
+.menu-list{display:flex;flex-direction:column;gap:10px;}
+.menu-item{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;text-align:start;box-shadow:var(--shadow-sm);transition:.16s;width:100%;cursor:pointer;}
+.menu-item:active{transform:scale(.98);border-color:var(--primary);}
+.menu-icon{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;background:var(--primary-light);border-radius:12px;font-size:19px;}
+.menu-body{flex:1;display:flex;flex-direction:column;}
+.menu-title{font-size:14px;font-weight:700;}
+.menu-sub{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.menu-arrow{font-size:20px;color:var(--muted);}
+html[dir="rtl"] .menu-arrow{transform:scaleX(-1);}
+
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--primary);padding:8px 0;margin-bottom:8px;cursor:pointer;}
+.back-arrow{font-size:18px;line-height:1;}
+html[dir="rtl"] .back-arrow{transform:scaleX(-1);}
+
+/* ============================================================
+BREATHING
+============================================================ */
+.breath-wrap{display:grid;place-items:center;padding:20px 0 8px;}
+.breath-ring{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(81,48,78,.06),transparent 70%);border:2px dashed var(--primary-soft);}
+.breath-circle{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary-mid),var(--primary));color:#F7F7EF;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(81,48,78,.35);transform:scale(.85);transition:transform 4s ease-in-out;text-align:center;padding:8px;}
+.breath-circle.inhale{transform:scale(1.25);}
+
+/* ============================================================
+MOOD
+============================================================ */
+.mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
+.mood-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--surface-raised);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:9.5px;font-weight:600;color:var(--muted);transition:.16s;cursor:pointer;}
+.mood-btn:active{transform:scale(.94);}
+.mood-btn.is-active{border-color:var(--primary);background:var(--primary-tint);color:var(--primary);}
+.mood-emoji{font-size:20px;}
+.mood-response{margin-top:14px;padding:14px;background:var(--primary-tint);border:1px solid var(--primary-soft);border-radius:var(--radius-sm);font-size:13px;line-height:1.6;color:var(--primary-dark);font-weight:500;}
+
+/* ============================================================
+BMI
+============================================================ */
+.bmi-result{margin-top:16px;padding:16px;border-radius:var(--radius-sm);background:var(--primary-tint);border:1px solid var(--primary-soft);text-align:center;}
+.bmi-number{font-size:32px;font-weight:800;color:var(--primary);letter-spacing:-1px;}
+.bmi-cat{font-size:13px;font-weight:700;margin-top:4px;}
+.bmi-note{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5;}
+
+/* ============================================================
+MODAL
+============================================================ */
+.modal{position:fixed;inset:0;z-index:200;display:none;}
+.modal.is-open{display:block;}
+.modal-backdrop{position:absolute;inset:0;background:rgba(42,32,41,.45);backdrop-filter:blur(2px);animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.modal-sheet{position:absolute;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:var(--surface-raised);border-radius:24px 24px 0 0;padding:10px 20px calc(20px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;animation:slideUp .28s cubic-bezier(.32,.72,0,1);}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-grab{width:40px;height:4px;border-radius:999px;background:#D5CDBE;margin:0 auto 16px;}
+.modal-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.modal-icon{width:52px;height:52px;flex-shrink:0;display:grid;place-items:center;background:var(--primary-light);border-radius:16px;font-size:24px;}
+.modal-title{font-size:17px;font-weight:800;letter-spacing:-.3px;}
+.modal-meta{font-size:12px;color:var(--muted);margin-top:2px;}
+.modal-body{margin-bottom:20px;}
+.modal-body h4{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--primary);}
+.modal-body ol{list-style:none;counter-reset:step;display:flex;flex-direction:column;gap:10px;}
+.modal-body ol li{counter-increment:step;position:relative;padding-inline-start:32px;font-size:13px;line-height:1.55;color:#3D2E3C;}
+.modal-body ol li::before{content:counter(step);position:absolute;inset-inline-start:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:11px;font-weight:800;}
+.modal-caution{margin-top:16px;padding:12px 14px;background:var(--danger-bg);border:1px solid var(--danger-border);border-radius:var(--radius-sm);font-size:12px;line-height:1.55;color:#A02A34;}
+.modal-locked-note{margin-top:16px;padding:12px 14px;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:var(--radius-sm);font-size:12px;line-height:1.55;color:#7A5218;}
+.modal-footer{display:flex;gap:10px;}
+.modal-footer .btn{flex:1;}
+
+/* ============================================================
+BOTTOM NAV
+============================================================ */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;height:var(--nav-h);padding-bottom:env(safe-area-inset-bottom);background:rgba(247,247,239,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;z-index:100;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--muted);transition:.16s;padding-top:4px;position:relative;cursor:pointer;}
+.nav-item:active{transform:scale(.94);}
+.nav-icon{font-size:19px;line-height:1;opacity:.7;transition:.16s;}
+.nav-label{font-size:10px;font-weight:600;}
+.nav-item.is-active{color:var(--primary);}
+.nav-item.is-active .nav-icon{opacity:1;transform:translateY(-1px);}
+.nav-item.is-active::before{content:"";position:absolute;top:0;width:26px;height:3px;border-radius:0 0 4px 4px;background:var(--primary);}
+
+/* ============================================================
+TOAST
+============================================================ */
+.toast{position:fixed;top:calc(80px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-20px);max-width:calc(100% - 40px);background:var(--primary-dark);color:#F7F7EF;padding:12px 18px;border-radius:12px;font-size:12.5px;font-weight:600;box-shadow:0 8px 24px rgba(81,48,78,.3);opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;z-index:300;text-align:center;line-height:1.4;}
+.toast.is-visible{opacity:1;transform:translate(-50%,0);}
+
+html[dir="rtl"] .hero-glow{right:auto;left:-50px;}
+html[dir="rtl"] .brand-title{letter-spacing:0;}
+html[dir="rtl"] .page-title,
+html[dir="rtl"] .hero-title{letter-spacing:0;}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+<header class="app-header">
+<div class="header-inner">
+<div class="brand">
+<span class="brand-mark">MR</span>
+<div class="brand-text">
+<span class="brand-title" data-i18n="appName">My Recovery</span>
+<span class="brand-sub" data-i18n="appTagline">Your recovery guide</span>
+</div>
+</div>
+<button class="lang-btn" id="langToggle" type="button" aria-label="Switch language">
+<span class="lang-icon">🌐</span>
+<span id="langLabel">العربية</span>
+</button>
+</div>
+</header>
+
+<main class="app-main">
+
+<section class="screen is-active" id="screen-home">
+<div class="hero-card">
+<div class="hero-glow"></div>
+<h1 class="hero-title" data-i18n="homeGreeting">Welcome back</h1>
+<p class="hero-sub" data-i18n="homeSub">Small steps every day build a stronger recovery.</p>
+</div>
+
+<div class="progress-card">
+<div class="progress-top">
+<span class="progress-label" data-i18n="weeklyProgress">This week's progress</span>
+<span class="progress-count"><strong id="progressDone">0</strong> <span data-i18n="of">of</span> <span id="progressTotal">0</span></span>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="progress-sub">
+<span id="progressPhaseLabel">—</span>
+<button class="link-btn" data-nav="tracker" type="button" data-i18n="changePhase">Change</button>
+</div>
+</div>
+
+<div class="section">
+<div class="section-head">
+<h2 data-i18n="todaysRoutine">Today's routine</h2>
+</div>
+<div id="todayRoutine"></div>
+</div>
+
+<div class="tip-card">
+<div class="tip-icon">💡</div>
+<div class="tip-content">
+<span class="tip-label" data-i18n="tipOfDay">Tip of the day</span>
+<p class="tip-text" id="tipText">—</p>
+</div>
+</div>
+
+<div class="section">
+<div class="section-head">
+<h2 data-i18n="quickActions">Quick actions</h2>
+</div>
+<div class="quick-grid">
+<button class="quick-card" data-nav="exercises" type="button">
+<span class="quick-emoji">🏃‍♀️</span><span data-i18n="navExercises">Exercises</span>
+</button>
+<button class="quick-card" data-nav="education" type="button">
+<span class="quick-emoji">📖</span><span data-i18n="navEducation">Education</span>
+</button>
+<button class="quick-card" data-nav="tracker" type="button">
+<span class="quick-emoji">📊</span><span data-i18n="navTracker">Tracker</span>
+</button>
+<button class="quick-card" data-nav="psych" type="button">
+<span class="quick-emoji">💗</span><span data-i18n="quickPsych">Support</span>
+</button>
+</div>
+</div>
+
+<div class="disclaimer" data-i18n="disclaimer">
+This app is for education only and does not replace your doctor or physiotherapist.
+</div>
+</section>
+
+<section class="screen" id="screen-exercises">
+<div class="page-head">
+<h1 class="page-title" data-i18n="exercisesTitle">Exercises</h1>
+<p class="page-sub" data-i18n="exercisesSub">Gentle, progressive movement for your recovery.</p>
+</div>
+
+<div class="counter-card">
+<div class="counter-left">
+<div class="counter-num" id="doneCounter">0</div>
+<div class="counter-label" data-i18n="doneToday">done today</div>
+</div>
+<div class="counter-phase">
+<span class="counter-phase-label" data-i18n="currentPhase">Current phase</span>
+<span class="counter-phase-value" id="exercisePhaseLabel">Early</span>
+</div>
+</div>
+
+<div class="filter-row" id="filterRow">
+<button class="filter-chip is-active" data-filter="all" type="button" data-i18n="filterAll">All</button>
+<button class="filter-chip" data-filter="early" type="button" data-i18n="phaseEarly">Early</button>
+<button class="filter-chip" data-filter="mid" type="button" data-i18n="phaseMid">Mid</button>
+<button class="filter-chip" data-filter="late" type="button" data-i18n="phaseLate">Late</button>
+</div>
+
+<div class="exercise-list" id="exerciseList"></div>
+</section>
+
+<section class="screen" id="screen-education">
+<div class="page-head">
+<h1 class="page-title" data-i18n="educationTitle">Education</h1>
+<p class="page-sub" data-i18n="educationSub">Know what is normal and what needs a doctor.</p>
+</div>
+<div class="accordion" id="educationList"></div>
+</section>
+
+<section class="screen" id="screen-tracker">
+<div class="page-head">
+<h1 class="page-title" data-i18n="trackerTitle">Tracker</h1>
+<p class="page-sub" data-i18n="trackerSub">Record how you feel today. It helps your team follow your progress.</p>
+</div>
+
+<div class="phase-card-container">
+<div class="phase-header">
+<h3 data-i18n="yourRecoveryPhase">Your recovery phase</h3>
+<span class="hint" data-i18n="changeAnytime">Change anytime</span>
+</div>
+<div class="phase-pills" id="trackerPhasePills">
+<button data-phase="early" type="button" data-i18n="phaseEarly">Early</button>
+<button data-phase="mid" type="button" data-i18n="phaseMid">Mid</button>
+<button data-phase="late" type="button" data-i18n="phaseLate">Late</button>
+</div>
+<p class="phase-description" id="phaseDescription">Day 1 – Week 2</p>
+</div>
+
+<div class="card">
+<div class="field">
+<label class="field-label">
+<span data-i18n="painLevel">Pain level</span>
+<span class="pain-value" id="painValue">0</span>
+</label>
+<input type="range" id="painSlider" min="0" max="10" step="1" value="0" class="slider">
+<div class="slider-scale">
+<span data-i18n="painLow">No pain</span>
+<span data-i18n="painHigh">Worst pain</span>
+</div>
+</div>
+
+<div class="field">
+<label class="field-label" data-i18n="swelling">Swelling in the arm</label>
+<div class="swelling-options" id="swellingOptions">
+<button class="swelling-btn" data-swelling="none" type="button">
+<span class="swelling-dot" style="background:#4A9B6E"></span>
+<span class="swelling-body">
+<span class="swelling-title" data-i18n="swellingNoneT">None</span>
+<span class="swelling-desc" data-i18n="swellingNoneD">No change from my other arm</span>
+</span>
+</button>
+<button class="swelling-btn" data-swelling="mild" type="button">
+<span class="swelling-dot" style="background:#D4A72C"></span>
+<span class="swelling-body">
+<span class="swelling-title" data-i18n="swellingMildT">Mild</span>
+<span class="swelling-desc" data-i18n="swellingMildD">Slight puffiness, ring feels tight</span>
+</span>
+</button>
+<button class="swelling-btn" data-swelling="moderate" type="button">
+<span class="swelling-dot" style="background:#E08A3E"></span>
+<span class="swelling-body">
+<span class="swelling-title" data-i18n="swellingModerateT">Moderate</span>
+<span class="swelling-desc" data-i18n="swellingModerateD">Clearly bigger than the other arm, sleeves feel tight</span>
+</span>
+</button>
+<button class="swelling-btn" data-swelling="severe" type="button">
+<span class="swelling-dot" style="background:#C9353F"></span>
+<span class="swelling-body">
+<span class="swelling-title" data-i18n="swellingSevereT">Severe</span>
+<span class="swelling-desc" data-i18n="swellingSevereD">Very swollen and heavy, uncomfortable to move</span>
+</span>
+</button>
+</div>
+</div>
+
+<div class="field">
+<label class="field-label" for="mobilitySelect" data-i18n="shoulderMobility">Shoulder movement</label>
+<select id="mobilitySelect" class="input">
+<option value="better" data-i18n="mobilityBetter">Better than yesterday</option>
+<option value="same" data-i18n="mobilitySame">Same</option>
+<option value="worse" data-i18n="mobilityWorse">Worse than yesterday</option>
+</select>
+</div>
+
+<div class="field">
+<label class="field-label" for="notesInput" data-i18n="notes">Notes</label>
+<textarea id="notesInput" class="input textarea" rows="3" data-i18n-placeholder="notesPlaceholder" placeholder="Anything you want to tell your doctor..."></textarea>
+</div>
+
+<button class="btn btn-primary" id="saveRecord" type="button" data-i18n="saveRecord">Save today's record</button>
+</div>
+
+<div class="section-head section-head-row">
+<h2 data-i18n="recentRecords">Last 7 records</h2>
+<button class="btn btn-ghost btn-sm" id="exportReport" type="button" data-i18n="exportReport">Export</button>
+</div>
+
+<div id="recordsList" class="records-list"></div>
+</section>
+
+<section class="screen" id="screen-more">
+<div class="page-head">
+<h1 class="page-title" data-i18n="moreTitle">More</h1>
+<p class="page-sub" data-i18n="moreSub">Everything else you need.</p>
+</div>
+
+<div class="menu-list">
+<button class="menu-item" data-nav="psych" type="button">
+<span class="menu-icon">💗</span>
+<span class="menu-body">
+<span class="menu-title" data-i18n="psychTitle">Psychological Support</span>
+<span class="menu-sub" data-i18n="psychSubShort">Breathing, mood check-in, and support</span>
+</span>
+<span class="menu-arrow">›</span>
+</button>
+<button class="menu-item" data-nav="nutrition" type="button">
+<span class="menu-icon">🥗</span>
+<span class="menu-body">
+<span class="menu-title" data-i18n="nutritionTitle">Nutrition</span>
+<span class="menu-sub" data-i18n="nutritionSubShort">BMI and general nutrition tips</span>
+</span>
+<span class="menu-arrow">›</span>
+</button>
+<button class="menu-item" data-nav="about" type="button">
+<span class="menu-icon">ℹ️</span>
+<span class="menu-body">
+<span class="menu-title" data-i18n="aboutTitle">About</span>
+<span class="menu-sub" data-i18n="aboutSubShort">App information and disclaimer</span>
+</span>
+<span class="menu-arrow">›</span>
+</button>
+</div>
+</section>
+
+<section class="screen" id="screen-psych">
+<button class="back-btn" data-nav="more" type="button">
+<span class="back-arrow">‹</span> <span data-i18n="back">Back</span>
+</button>
+
+<div class="page-head">
+<h1 class="page-title" data-i18n="psychTitle">Psychological Support</h1>
+<p class="page-sub" data-i18n="psychSub">Your feelings matter as much as your body.</p>
+</div>
+
+<div class="card">
+<h3 class="card-title" data-i18n="breathingTitle">Guided breathing</h3>
+<p class="card-sub" data-i18n="breathingHint">Breathe in for 4 seconds, breathe out for 4 seconds.</p>
+<div class="breath-wrap">
+<div class="breath-ring">
+<div class="breath-circle" id="breathCircle">
+<span id="breathLabel" data-i18n="breathingReady">Ready</span>
+</div>
+</div>
+</div>
+<div class="btn-row">
+<button class="btn btn-primary" id="breathStart" type="button" data-i18n="breathingStart">Start</button>
+<button class="btn btn-ghost hidden" id="breathStop" type="button" data-i18n="breathingStop">Stop</button>
+</div>
+</div>
+
+<div class="card">
+<h3 class="card-title" data-i18n="moodTitle">How do you feel today?</h3>
+<div class="mood-grid" id="moodGrid">
+<button class="mood-btn" data-mood="calm" type="button">
+<span class="mood-emoji">😌</span><span data-i18n="moodCalm">Calm</span>
+</button>
+<button class="mood-btn" data-mood="anxious" type="button">
+<span class="mood-emoji">😰</span><span data-i18n="moodAnxious">Anxious</span>
+</button>
+<button class="mood-btn" data-mood="sad" type="button">
+<span class="mood-emoji">😢</span><span data-i18n="moodSad">Sad</span>
+</button>
+<button class="mood-btn" data-mood="tired" type="button">
+<span class="mood-emoji">😴</span><span data-i18n="moodTired">Tired</span>
+</button>
+<button class="mood-btn" data-mood="hopeful" type="button">
+<span class="mood-emoji">🌤️</span><span data-i18n="moodHopeful">Hopeful</span>
+</button>
+</div>
+<div class="mood-response hidden" id="moodResponse"></div>
+</div>
+
+<div class="card danger-soft">
+<h3 class="card-title" data-i18n="seekHelpTitle">When to seek professional help</h3>
+<ul class="bullet-list" id="seekHelpList"></ul>
+</div>
+</section>
+
+<section class="screen" id="screen-nutrition">
+<button class="back-btn" data-nav="more" type="button">
+<span class="back-arrow">‹</span> <span data-i18n="back">Back</span>
+</button>
+
+<div class="page-head">
+<h1 class="page-title" data-i18n="nutritionTitle">Nutrition</h1>
+<p class="page-sub" data-i18n="nutritionSubShort">BMI and general nutrition tips</p>
+</div>
+
+<div class="card soft">
+<h3 class="card-title" data-i18n="nutritionTipsTitle">General nutrition tips</h3>
+<ul class="bullet-list" id="nutritionTipsTop"></ul>
+</div>
+
+<div class="card">
+<h3 class="card-title" data-i18n="bmiTitle">BMI Calculator</h3>
+<div class="field-row">
+<div class="field">
+<label class="field-label" for="heightInput" data-i18n="heightLabel">Height (cm)</label>
+<input type="number" id="heightInput" class="input" placeholder="160" inputmode="numeric">
+</div>
+<div class="field">
+<label class="field-label" for="weightInput" data-i18n="weightLabel">Weight (kg)</label>
+<input type="number" id="weightInput" class="input" placeholder="60" inputmode="numeric">
+</div>
+</div>
+<button class="btn btn-primary" id="calcBMI" type="button" data-i18n="calculate">Calculate</button>
+<div class="bmi-result hidden" id="bmiResult"></div>
+</div>
+
+<div class="card warning-soft">
+<h3 class="card-title" data-i18n="lymphWarningTitle">Important: weight vs. swelling</h3>
+<p class="body-text" data-i18n="lymphWarningBody">
+Lymphedema can add weight that is not fat. If your weight changes quickly
+(within days) or one arm feels heavier, this may be swelling and not real weight gain.
+Contact your doctor before changing your diet.
+</p>
+</div>
+
+<div class="card">
+<h3 class="card-title" data-i18n="nutritionNotesTitle">More notes</h3>
+<ul class="bullet-list" id="nutritionTipsBottom"></ul>
+</div>
+
+<div class="disclaimer" data-i18n="nutritionWarning">
+These tips are general guidance only. Do not start any diet or supplement without your doctor's approval.
+</div>
+</section>
+
+<section class="screen" id="screen-about">
+<button class="back-btn" data-nav="more" type="button">
+<span class="back-arrow">‹</span> <span data-i18n="back">Back</span>
+</button>
+
+<div class="page-head">
+<h1 class="page-title" data-i18n="aboutTitle">About</h1>
+<p class="page-sub" data-i18n="aboutSubShort">App information and disclaimer</p>
+</div>
+
+<div class="card">
+<h3 class="card-title" data-i18n="aboutWhatTitle">What this app does</h3>
+<p class="body-text" data-i18n="aboutWhatBody">
+My Recovery helps you follow your home exercise programme,
+understand warning signs, and record your daily symptoms after breast surgery.
+All data is stored only on your own device.
+</p>
+</div>
+
+<div class="card danger-soft">
+<h3 class="card-title" data-i18n="aboutDisclaimerTitle">Medical disclaimer</h3>
+<p class="body-text" data-i18n="aboutDisclaimerBody">
+This application is an educational tool created for an academic project.
+It does not provide a diagnosis, does not prescribe medication, and is not a substitute
+for your surgeon, oncologist, or physiotherapist. Always follow your medical team's instructions.
+</p>
+</div>
+
+<div class="card">
+<h3 class="card-title" data-i18n="aboutSourcesTitle">References</h3>
+<ul class="bullet-list" id="sourcesList"></ul>
+</div>
+
+<button class="btn btn-primary btn-full" id="contactClinic" type="button" data-i18n="contactClinic">
+Contact the Clinic
+</button>
+</section>
+
+</main>
+
+<nav class="bottom-nav">
+<button class="nav-item is-active" data-nav="home" type="button">
+<span class="nav-icon">🏠</span><span class="nav-label" data-i18n="navHome">Home</span>
+</button>
+<button class="nav-item" data-nav="exercises" type="button">
+<span class="nav-icon">🏃‍♀️</span><span class="nav-label" data-i18n="navExercises">Exercises</span>
+</button>
+<button class="nav-item" data-nav="education" type="button">
+<span class="nav-icon">📖</span><span class="nav-label" data-i18n="navEducation">Education</span>
+</button>
+<button class="nav-item" data-nav="tracker" type="button">
+<span class="nav-icon">📊</span><span class="nav-label" data-i18n="navTracker">Tracker</span>
+</button>
+<button class="nav-item" data-nav="more" type="button">
+<span class="nav-icon">⋯</span><span class="nav-label" data-i18n="navMore">More</span>
+</button>
+</nav>
+
+</div>
+
+<div class="modal" id="exerciseModal" aria-hidden="true">
+<div class="modal-backdrop" data-close-modal></div>
+<div class="modal-sheet">
+<div class="modal-grab"></div>
+<div class="modal-head">
+<div class="modal-icon" id="modalIcon">🏃‍♀️</div>
+<div>
+<h3 class="modal-title" id="modalTitle">—</h3>
+<p class="modal-meta" id="modalMeta">—</p>
+</div>
+</div>
+<div class="modal-body" id="modalBody"></div>
+<div class="modal-footer">
+<button class="btn btn-ghost" data-close-modal type="button" data-i18n="close">Close</button>
+<button class="btn btn-primary" id="modalDone" type="button" data-i18n="markDone">Mark as done</button>
+</div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+My Recovery — script
+============================================================ */
+
+const state = {
+lang: localStorage.getItem('mr_lang') || 'en',
+phase: localStorage.getItem('mr_phase') || 'early',
+filter: 'all',
+screen: 'home',
+doneToday: JSON.parse(localStorage.getItem('mr_done') || '{}'),
+doneHistory: JSON.parse(localStorage.getItem('mr_history') || '{}'),
+records: JSON.parse(localStorage.getItem('mr_records') || '[]'),
+swelling: null
+};
+
+const PHASE_ORDER = { early: 1, mid: 2, late: 3 };
+
+function isExerciseUnlocked(exPhase){
+return PHASE_ORDER[exPhase] <= PHASE_ORDER[state.phase];
+}
+
+/* ---------- I18N ---------- */
+const I18N = {
+en: {
+appName:'My Recovery', appTagline:'Your recovery guide',
+navHome:'Home', navExercises:'Exercises', navEducation:'Education',
+navTracker:'Tracker', navMore:'More',
+homeGreeting:'Welcome back',
+homeSub:'Small steps every day build a stronger recovery.',
+weeklyProgress:"This week's progress", of:'of', changePhase:'Change',
+todaysRoutine:"Today's routine", tipOfDay:'Tip of the day',
+quickActions:'Quick actions', quickPsych:'Support',
+disclaimer:'This app is for education only and does not replace your doctor or physiotherapist. Stop any exercise that causes severe pain and contact your medical team.',
+exercisesTitle:'Exercises',
+exercisesSub:'Gentle, progressive movement for your recovery.',
+doneToday:'done today', currentPhase:'Current phase', filterAll:'All',
+markDone:'Mark as done', done:'Done', close:'Close', back:'Back',
+reps:'Repetitions', frequency:'Frequency', area:'Area',
+howTo:'How to do it', caution:'Caution',
+phaseEarly:'Early', phaseMid:'Mid', phaseLate:'Late',
+phaseEarlyDesc:'Day 1 – Week 2',
+phaseMidDesc:'Week 3 – Month 2',
+phaseLateDesc:'Month 3 onwards',
+educationTitle:'Education',
+educationSub:'Know what is normal and what needs a doctor.',
+trackerTitle:'Tracker',
+trackerSub:'Record how you feel today. It helps your team follow your progress.',
+yourRecoveryPhase:'Your recovery phase', changeAnytime:'Change anytime',
+painLevel:'Pain level', painLow:'No pain', painHigh:'Worst pain',
+swelling:'Swelling in the arm',
+swellingNoneT:'None', swellingNoneD:'No change from my other arm',
+swellingMildT:'Mild', swellingMildD:'Slight puffiness, ring feels tight',
+swellingModerateT:'Moderate', swellingModerateD:'Clearly bigger than the other arm, sleeves feel tight',
+swellingSevereT:'Severe', swellingSevereD:'Very swollen and heavy, uncomfortable to move',
+shoulderMobility:'Shoulder movement',
+mobilityBetter:'Better than yesterday', mobilitySame:'Same', mobilityWorse:'Worse than yesterday',
+notes:'Notes', notesPlaceholder:'Anything you want to tell your doctor...',
+saveRecord:"Save today's record",
+recentRecords:'Last 7 records', exportReport:'Export',
+noRecords:'No records yet. Save your first record today.',
+reportCopied:'Report copied to clipboard.',
+reportEmpty:'No records to export yet.',
+moreTitle:'More', moreSub:'Everything else you need.',
+psychTitle:'Psychological Support',
+psychSub:'Your feelings matter as much as your body.',
+psychSubShort:'Breathing, mood check-in, and support',
+nutritionTitle:'Nutrition',
+nutritionSubShort:'BMI and general nutrition tips',
+aboutTitle:'About', aboutSubShort:'App information and disclaimer',
+breathingTitle:'Guided breathing',
+breathingHint:'Breathe in for 4 seconds, breathe out for 4 seconds.',
+breathingReady:'Ready', breathingIn:'Breathe in', breathingOut:'Breathe out',
+breathingStart:'Start', breathingStop:'Stop',
+moodTitle:'How do you feel today?',
+moodCalm:'Calm', moodAnxious:'Anxious', moodSad:'Sad',
+moodTired:'Tired', moodHopeful:'Hopeful',
+moodRespCalm:"That's wonderful. Hold on to this calm feeling — you're doing well. Take a moment to really notice the peace you feel right now.",
+moodRespAnxious:"It's okay to feel anxious — it's a very common part of recovery. Try the breathing exercise above, or talk to someone you trust about what's worrying you. You are not alone.",
+moodRespSad:"It's okay to feel sad, and it's okay to have hard days. Be gentle with yourself today. If this feeling stays with you for more than two weeks, please reach out to your doctor — support is available.",
+moodRespTired:"Tiredness is your body asking for rest — it's part of healing. Give yourself permission to slow down today. Gentle movement and good sleep will help your energy return.",
+moodRespHopeful:"What a beautiful way to feel. Your hope is a real strength, and it's helping you heal. Hold on to it — you are moving forward, one step at a time.",
+seekHelpTitle:'When to seek professional help',
+bmiTitle:'BMI Calculator',
+heightLabel:'Height (cm)', weightLabel:'Weight (kg)', calculate:'Calculate',
+bmiUnder:'Underweight', bmiNormal:'Normal weight',
+bmiOver:'Overweight', bmiObese:'Obese',
+bmiNote:'BMI is a rough screening indicator only. It is not a diagnosis. Discuss your weight with your doctor.',
+bmiInvalid:'Please enter a valid height and weight.',
+nutritionTipsTitle:'General nutrition tips',
+nutritionNotesTitle:'More notes',
+lymphWarningTitle:'Important: weight vs. swelling',
+lymphWarningBody:'Lymphedema can add weight that is not fat. If your weight changes quickly (within days) or one arm feels heavier, this may be swelling and not real weight gain. Contact your doctor before changing your diet.',
+nutritionWarning:"These tips are general guidance only. Do not start any diet or supplement without your doctor's approval.",
+aboutWhatTitle:'What this app does',
+aboutWhatBody:'My Recovery helps you follow your home exercise programme, understand warning signs, and record your daily symptoms after breast surgery. All data is stored only on your own device.',
+aboutDisclaimerTitle:'Medical disclaimer',
+aboutDisclaimerBody:"This application is an educational tool created for an academic project. It does not provide a diagnosis, does not prescribe medication, and is not a substitute for your surgeon, oncologist, or physiotherapist. Always follow your medical team's instructions.",
+aboutSourcesTitle:'References',
+contactClinic:'Contact the Clinic',
+toastLocked:'This exercise is for a later phase. Update your recovery phase in Tracker to unlock it.',
+toastPhaseChanged:'Phase updated to {phase}.',
+toastSelectSwelling:'Please select a swelling level first.',
+exerciseInPhase:'{phase} phase'
+},
+ar: {
+appName:'رحلتي', appTagline:'دليلك للتعافي',
+navHome:'الرئيسية', navExercises:'التمارين', navEducation:'التوعية',
+navTracker:'المتابعة', navMore:'المزيد',
+homeGreeting:'أهلاً بعودتك',
+homeSub:'خطوات صغيرة كل يوم تصنع تعافياً أقوى.',
+weeklyProgress:'تقدم هذا الأسبوع', of:'من', changePhase:'تغيير',
+todaysRoutine:'روتين اليوم', tipOfDay:'نصيحة اليوم',
+quickActions:'إجراءات سريعة', quickPsych:'الدعم',
+disclaimer:'هذا التطبيق للتوعية فقط ولا يُعد بديلاً عن الطبيب أو أخصائي العلاج الطبيعي. توقفي عن أي تمرين يسبب ألماً شديداً وتواصلي مع فريقك الطبي.',
+exercisesTitle:'التمارين',
+exercisesSub:'حركة لطيفة ومتدرجة لدعم تعافيك.',
+doneToday:'أُنجزت اليوم', currentPhase:'المرحلة الحالية', filterAll:'الكل',
+markDone:'تم', done:'تم', close:'إغلاق', back:'رجوع',
+reps:'التكرارات', frequency:'التكرار', area:'المنطقة',
+howTo:'طريقة الأداء', caution:'تحذير',
+phaseEarly:'مبكرة', phaseMid:'متوسطة', phaseLate:'متأخرة',
+phaseEarlyDesc:'اليوم ١ – الأسبوع ٢',
+phaseMidDesc:'الأسبوع ٣ – الشهر ٢',
+phaseLateDesc:'من الشهر ٣',
+educationTitle:'التوعية',
+educationSub:'اعرفي ما هو طبيعي وما يستدعي زيارة الطبيب.',
+trackerTitle:'المتابعة',
+trackerSub:'سجّلي ما تشعرين به اليوم. هذا يساعد فريقك الطبي على متابعة تقدمك.',
+yourRecoveryPhase:'مرحلة تعافيك', changeAnytime:'يمكنك تغييرها في أي وقت',
+painLevel:'مستوى الألم', painLow:'لا ألم', painHigh:'أشد ألم',
+swelling:'تورم الذراع',
+swellingNoneT:'لا يوجد', swellingNoneD:'لا فرق عن الذراع الأخرى',
+swellingMildT:'خفيف', swellingMildD:'انتفاخ بسيط، الخاتم يشعر بالضيق',
+swellingModerateT:'متوسط', swellingModerateD:'أكبر بشكل واضح من الذراع الأخرى، الأكمام تضيق',
+swellingSevereT:'شديد', swellingSevereD:'متورم وثقيل جداً، يصعب تحريكه',
+shoulderMobility:'حركة الكتف',
+mobilityBetter:'أفضل من الأمس', mobilitySame:'كما هو', mobilityWorse:'أسوأ من الأمس',
+notes:'ملاحظات', notesPlaceholder:'أي شيء تريدين إخبار طبيبك به...',
+saveRecord:'حفظ تسجيل اليوم',
+recentRecords:'آخر ٧ تسجيلات', exportReport:'تصدير',
+noRecords:'لا توجد تسجيلات بعد. سجّلي أول متابعة اليوم.',
+reportCopied:'تم نسخ التقرير.',
+reportEmpty:'لا توجد تسجيلات للتصدير.',
+moreTitle:'المزيد', moreSub:'كل ما تحتاجينه إضافياً.',
+psychTitle:'الدعم النفسي',
+psychSub:'مشاعرك مهمة مثل جسدك.',
+psychSubShort:'تنفس موجّه، سؤال المشاعر، والدعم',
+nutritionTitle:'التغذية',
+nutritionSubShort:'حاسبة كتلة الجسم ونصائح عامة',
+aboutTitle:'عن التطبيق', aboutSubShort:'معلومات التطبيق وإخلاء المسؤولية',
+breathingTitle:'تمرين التنفس الموجّه',
+breathingHint:'شهيق ٤ ثوانٍ، زفير ٤ ثوانٍ.',
+breathingReady:'جاهزة', breathingIn:'شهيق', breathingOut:'زفير',
+breathingStart:'ابدئي', breathingStop:'إيقاف',
+moodTitle:'كيف تشعرين اليوم؟',
+moodCalm:'هادئة', moodAnxious:'قلقة', moodSad:'حزينة',
+moodTired:'متعبة', moodHopeful:'متفائلة',
+moodRespCalm:'هذا رائع. تمسكي بهذا الشعور الهادئ — أنتِ تبذلين جهداً جميلاً. خذي لحظة لتنتبهي فعلاً للسلام الذي تشعرين به الآن.',
+moodRespAnxious:'لا بأس أن تشعري بالقلق — هو جزء شائع جداً من التعافي. جربي تمرين التنفس بالأعلى، أو تحدثي مع شخص تثقين به عن مخاوفك. أنتِ لستِ وحدك.',
+moodRespSad:'لا بأس أن تشعري بالحزن، ولا بأس أن تمرّي بأيام صعبة. كوني لطيفة مع نفسك اليوم. إذا استمر هذا الشعور أكثر من أسبوعين، تواصلي مع طبيبك — الدعم متوفر.',
+moodRespTired:'التعب هو طريقة جسمك لطلب الراحة — وهو جزء من الشفاء. اسمحي لنفسك بالتباطؤ اليوم. الحركة اللطيفة والنوم الجيد سيساعدان طاقتك على العودة.',
+moodRespHopeful:'شعور جميل جداً. أملك قوة حقيقية، وهي تساعدك على التعافي. تمسكي بها — أنتِ تتقدمين، خطوة بخطوة.',
+seekHelpTitle:'متى تطلبين مساعدة مختص',
+bmiTitle:'حاسبة كتلة الجسم',
+heightLabel:'الطول (سم)', weightLabel:'الوزن (كجم)', calculate:'احسبي',
+bmiUnder:'نقص في الوزن', bmiNormal:'وزن طبيعي',
+bmiOver:'زيادة في الوزن', bmiObese:'سمنة',
+bmiNote:'مؤشر كتلة الجسم مؤشر استرشادي فقط وليس تشخيصاً. ناقشي وزنك مع طبيبك.',
+bmiInvalid:'أدخلي طولاً ووزناً صحيحين.',
+nutritionTipsTitle:'نصائح تغذية عامة',
+nutritionNotesTitle:'ملاحظات إضافية',
+lymphWarningTitle:'مهم: الوزن مقابل التورم',
+lymphWarningBody:'الوذمة اللمفية قد تضيف وزناً ليس دهوناً. إذا تغير وزنك بسرعة (خلال أيام) أو شعرت بثقل في ذراع واحدة، فقد يكون هذا تورماً وليس زيادة وزن حقيقية. استشيري طبيبك قبل تغيير نظامك الغذائي.',
+nutritionWarning:'هذه النصائح إرشادية فقط. لا تبدأي أي حمية أو مكملات دون موافقة طبيبك.',
+aboutWhatTitle:'ماذا يفعل هذا التطبيق',
+aboutWhatBody:'رحلتي تساعدك على متابعة برنامج التمارين المنزلية، وفهم علامات الخطر، وتسجيل أعراضك اليومية بعد جراحة الثدي. جميع البيانات محفوظة على جهازك فقط.',
+aboutDisclaimerTitle:'إخلاء المسؤولية الطبية',
+aboutDisclaimerBody:'هذا التطبيق أداة تعليمية أُنشئت لمشروع أكاديمي. لا يقدم تشخيصاً، ولا يصف أدوية، وليس بديلاً عن الجراح أو أخصائي الأورام أو أخصائي العلاج الطبيعي. اتبعي دائماً تعليمات فريقك الطبي.',
+aboutSourcesTitle:'المراجع',
+contactClinic:'تواصلي مع العيادة',
+toastLocked:'هذا التمرين لمرحلة لاحقة. حدّثي مرحلتك في المتابعة لفتحه.',
+toastPhaseChanged:'تم تحديث المرحلة إلى {phase}.',
+toastSelectSwelling:'اختاري مستوى التورم أولاً.',
+exerciseInPhase:'مرحلة {phase}'
+}
+};
+
+function t(key, replacements){
+let str = (I18N[state.lang] && I18N[state.lang][key]) || I18N.en[key] || key;
+if (replacements){
+Object.keys(replacements).forEach(k => {
+str = str.replace({${k}}`, replacements[k]);
+});
+}
+return str;
+}
+
+/* ---------- EXERCISE DATA ---------- */
+const EXERCISES = [
+{ id:'breathing', phase:'early', icon:'🌬️',
+name:{en:'Deep Breathing', ar:'التنفس العميق'},
+area:{en:'Chest & Lungs', ar:'الصدر والرئتان'},
+reps:{en:'10 slow breaths', ar:'١٠ أنفاس بطيئة'},
+freq:{en:'3 times a day', ar:'٣ مرات يومياً'},
+steps:{
+en:['Sit comfortably with your back supported.','Place one hand on your chest and one on your abdomen.','Breathe in slowly through your nose for 4 seconds, letting your abdomen rise.','Breathe out gently through your mouth for 4 seconds.','Repeat 10 times, then rest.'],
+ar:['اجلسي بشكل مريح مع دعم ظهرك.','ضعي يداً على صدرك ويداً على بطنك.','خذي شهيقاً بطيئاً من الأنف لمدة ٤ ثوانٍ مع ارتفاع البطن.','أخرجي الزفير بلطف من الفم لمدة ٤ ثوانٍ.','كرري ١٠ مرات ثم استريحي.']
+},
+caution:{en:'Stop if you feel dizzy or short of breath.',ar:'توقفي إذا شعرت بدوخة أو ضيق في النفس.'}
+},
+{ id:'hand-elbow-rom', phase:'early', icon:'✋',
+name:{en:'Active Hand & Elbow ROM', ar:'تحريك اليد والكوع'},
+area:{en:'Hand, Wrist & Elbow', ar:'اليد والرسغ والكوع'},
+reps:{en:'10 repetitions each', ar:'١٠ تكرارات لكل حركة'},
+freq:{en:'3 times a day', ar:'٣ مرات يومياً'},
+steps:{
+en:['Rest your forearm on a table, palm up.','Open and close your fingers slowly 10 times.','Bend your wrist up and down 10 times.','Turn your palm up and down 10 times.','Bend and straighten your elbow 10 times, keeping your shoulder relaxed.'],
+ar:['ضعي ساعدك على الطاولة وراحة اليد لأعلى.','افتحي وأغلقي أصابعك ببطء ١٠ مرات.','اثني الرسغ لأعلى ولأسفل ١٠ مرات.','دوري راحة اليد لأعلى ولأسفل ١٠ مرات.','اثني الكوع وافرديه ١٠ مرات مع إبقاء الكتف مسترخياً.']
+},
+caution:{en:'Move gently and stop if the wound pulls.',ar:'تحركي بلطف وتوقفي إذا شدّ الجرح.'}
+},
+{ id:'aa-shoulder-rom', phase:'early', icon:'🙆‍♀️',
+name:{en:'Active-Assisted Shoulder ROM', ar:'تحريك الكتف بمساعدة'},
+area:{en:'Shoulder', ar:'الكتف'},
+reps:{en:'10 reps per movement', ar:'١٠ تكرارات لكل حركة'},
+freq:{en:'2 times a day', ar:'مرتين يومياً'},
+steps:{
+en:['Lie on your back with a pillow under the operated arm.','Hold a stick or cane with both hands.','Flexion: use your healthy arm to lift the operated arm forward — stop at 40°.','Abduction: guide the arm out to the side — stop at 40°.','Rotation: with the elbow bent 90°, gently rotate the forearm inward and outward to tolerance.','Hold 3 seconds at each end and return slowly.'],
+ar:['استلقي على ظهرك مع وسادة تحت الذراع المُجرّاة.','امسكي عصا بكلتا اليدين.','الثني: استخدمي الذراع السليمة لرفع الذراع المُجرّاة للأمام — توقفي عند ٤٠ درجة.','البعد: وجّهي الذراع للخارج — توقفي عند ٤٠ درجة.','الدوران: مع ثني الكوع ٩٠ درجة، دوري الساعد للداخل والخارج حسب التحمل.','اثبتي ٣ ثوانٍ في كل نهاية ثم عودي ببطء.']
+},
+caution:{en:"Do not go beyond 40° in flexion and abduction during the first days without your physiotherapist's approval.",ar:'لا تتجاوزي ٤٠ درجة في الثني والبعد خلال الأيام الأولى دون موافقة أخصائي العلاج الطبيعي.'}
+},
+{ id:'isometric-grip', phase:'early', icon:'🤜',
+name:{en:'Hand & Forearm Isometric', ar:'انقباض ثابت لليد والساعد'},
+area:{en:'Hand & Forearm', ar:'اليد والساعد'},
+reps:{en:'10 holds of 5 seconds', ar:'١٠ مرات × ٥ ثوانٍ'},
+freq:{en:'Several times a day', ar:'عدة مرات يومياً'},
+steps:{
+en:['Hold a soft foam ball in your hand.','Squeeze gently but firmly.','Hold the squeeze for 5 seconds.','Release slowly.','Repeat 10 times.'],
+ar:['امسكي كرة إسفنجية لينة في يدك.','اضغطي عليها بلطف وبثبات.','اثبتي على الضغط لمدة ٥ ثوانٍ.','أفلتي ببطء.','كرري ١٠ مرات.']
+},
+caution:{en:'Use gentle pressure only. Stop if the wound or drain site hurts.',ar:'استخدمي ضغطاً لطيفاً فقط. توقفي إذا ألمك الجرح أو مكان الأنبوب.'}
+},
+{ id:'pnf-upper', phase:'early', icon:'🌀',
+name:{en:'PNF Upper Extremity (D1 Pattern)', ar:'نمط PNF للطرف العلوي (D1)'},
+area:{en:'Shoulder & Arm', ar:'الكتف والذراع'},
+reps:{en:'5–10 repetitions', ar:'٥–١٠ تكرارات'},
+freq:{en:'2 times a day', ar:'مرتين يومياً'},
+steps:{
+en:['Only start after your drain has been removed.','Lie on your back with the shoulder supported.','D1 flexion: start with the arm out to the side and slightly back, thumb pointing down.','Move the arm diagonally up and across the body, turning the thumb upward — like combing the opposite side of your hair.','Return slowly to the starting position.','Repeat 5–10 times, staying within a pain-free range.'],
+ar:['ابدئي فقط بعد إزالة الأنبوب (الدرن).','استلقي على ظهرك مع دعم الكتف.','ثني D1: ابدئي والذراع للخارج وللخلف قليلاً، والإبهام لأسفل.','حركي الذراع قطرياً لأعلى وعبر الجسم، مع لف الإبهام لأعلى — مثل تمشيط الجهة المقابلة من شعرك.','عودي ببطء إلى وضع البداية.','كرري ٥–١٠ مرات في نطاق بدون ألم.']
+},
+caution:{en:'Do not start before the drain is removed. Keep the movement small and pain-free.',ar:'لا تبدئي قبل إزالة الأنبوب. اجعلي الحركة صغيرة وبدون ألم.'}
+},
+{ id:'light-theraband', phase:'early', icon:'🎗️',
+name:{en:'Progressive Resisted Exercise (Light Band)', ar:'تمرين مقاومة متدرج (شريط خفيف)'},
+area:{en:'Shoulder & Arm', ar:'الكتف والذراع'},
+reps:{en:'10 repetitions', ar:'١٠ تكرارات'},
+freq:{en:'2 times a day', ar:'مرتين يومياً'},
+steps:{
+en:['Start from day 3 onwards, once the drain is out.','Hold a light yellow or red Theraband with both hands.','Keep your elbows close to your body.','Pull the band apart slowly, squeezing the shoulder blades gently.','Hold 2 seconds, then return slowly.','Repeat 10 times.'],
+ar:['ابدئي من اليوم الثالث بعد إزالة الأنبوب.','امسكي شريط مقاومة خفيف (أصفر أو أحمر) بكلتا اليدين.','أبقي كوعيك قريبين من جسمك.','اسحبي الشريط للخارج ببطء مع ضم لوحي الكتف بلطف.','اثبتي ثانيتين ثم عودي ببطء.','كرري ١٠ مرات.']
+},
+caution:{en:'Use very light resistance. Stop if the axilla feels tight or painful.',ar:'استخدمي مقاومة خفيفة جداً. توقفي إذا شعرت بشد أو ألم في الإبط.'}
+},
+{ id:'cane-mobilising', phase:'early', icon:'🥢',
+name:{en:'Shoulder Mobilising with Cane', ar:'تحريك الكتف بالعصا'},
+area:{en:'Shoulder', ar:'الكتف'},
+reps:{en:'10 repetitions', ar:'١٠ تكرارات'},
+freq:{en:'2 times a day', ar:'مرتين يومياً'},
+steps:{
+en:['Only start after your sutures have been removed (day 7 onwards).','Lie on your back holding a stick with both hands.','Using your healthy arm, guide the operated arm overhead.','Progress gradually as comfort allows.','Hold at the top for 3 seconds, then return slowly.','Repeat 10 times.'],
+ar:['ابدئي فقط بعد إزالة الغرز (من اليوم السابع).','استلقي على ظهرك ممسكة بعصا بكلتا اليدين.','استخدمي الذراع السليمة لتوجيه الذراع المُجرّاة فوق الرأس.','تقدمي تدريجياً حسب الراحة.','اثبتي ٣ ثوانٍ في الأعلى ثم عودي ببطء.','كرري ١٠ مرات.']
+},
+caution:{en:'Do not force the range. Progress slowly and stop if pain increases.',ar:'لا تجبري المدى. تقدمي ببطء وتوقفي إذا زاد الألم.'}
+},
+{ id:'llps', phase:'mid', icon:'🧘‍♀️',
+name:{en:'Low-Load Prolonged Stretch (LLPS)', ar:'الشد المطول منخفض الحمل'},
+area:{en:'Shoulder', ar:'الكتف'},
+reps:{en:'1–2 stretches', ar:'١–٢ شد'},
+freq:{en:'Once or twice a day', ar:'مرة أو مرتين يومياً'},
+steps:{
+en:['Use only if your shoulder movement is not progressing.','Sit with your back supported and hold one end of a towel with the healthy hand.','Place the other end over the operated shoulder.','Gently pull into a comfortable stretch.','Hold for 20–30 seconds with minimal tension.','Release slowly and rest for 30 seconds before repeating.'],
+ar:['استخدمي فقط إذا كانت حركة كتفك لا تتقدم.','اجلسي مع دعم ظهرك وامسكي طرف منشفة باليد السليمة.','ضعي الطرف الآخر فوق الكتف المُجرّى.','اسحبي بلطف للوصول إلى شد مريح.','اثبتي ٢٠–٣٠ ثانية مع شد بسيط جداً.','أفلتي ببطء واستريحي ٣٠ ثانية قبل التكرار.']
+},
+caution:{en:'Use minimal force and never push into sharp pain.',ar:'استخدمي قوة بسيطة جداً ولا تدفعي إلى ألم حاد.'}
+},
+{ id:'scar-massage', phase:'mid', icon:'🖐️',
+name:{en:'Gentle Scar Massage', ar:'تدليك لطيف للأثر'},
+area:{en:'Scar Area', ar:'منطقة الجرح'},
+reps:{en:'2–3 minutes', ar:'٢–٣ دقائق'},
+freq:{en:'Once or twice a day', ar:'مرة أو مرتين يومياً'},
+steps:{
+en:['Only begin after your surgeon confirms the wound is fully closed.','Wash your hands thoroughly.','Apply a small amount of fragrance-free moisturiser around the scar.','Using 2 fingers, make small gentle circles on and around the scar.','Start very light and increase pressure very gradually over weeks.','Stop if the scar becomes red, hot, or painful.'],
+ar:['ابدئي فقط بعد تأكيد الجراح أن الجرح مغلق تماماً.','اغسلي يديك جيداً.','ضعي كمية صغيرة من مرطب بدون عطر حول الأثر.','بإصبعين، دلكي بلطف بحركات دائرية صغيرة على الأثر وحوله.','ابدئي بضغط خفيف جداً وزيدي الضغط تدريجياً على مدى أسابيع.','توقفي إذا احمر الأثر أو سخن أو ألم.']
+},
+caution:{en:'Do not massage over an open wound, drainage site, or infected area.',ar:'لا تدلكي فوق جرح مفتوح أو مكان درن أو منطقة ملتهبة.'}
+},
+{ id:'pulley-wheel', phase:'mid', icon:'⚙️',
+name:{en:'Pulley & Shoulder Wheel Exercises', ar:'تمارين البكرة وعجلة الكتف'},
+area:{en:'Shoulder', ar:'الكتف'},
+reps:{en:'10 repetitions', ar:'١٠ تكرارات'},
+freq:{en:'2 times a day', ar:'مرتين يومياً'},
+steps:{
+en:['Fix a pulley over a door or use a shoulder wheel if available.','Hold one handle with each hand.','Use the healthy arm to guide the operated arm up and down.','Move slowly and smoothly.','Go only as high as is comfortable.','Repeat 10 times.'],
+ar:['ثبتي بكرة فوق باب أو استخدمي عجلة الكتف إن توفرت.','امسكي مقبضاً بكل يد.','استخدمي الذراع السليمة لتوجيه الذراع المُجرّاة لأعلى ولأسفل.','تحركي ببطء وسلاسة.','اصعدي فقط إلى ارتفاع مريح.','كرري ١٠ مرات.']
+},
+caution:{en:'Avoid forcing the movement. Stop if pain increases.',ar:'تجنبي إجبار الحركة. توقفي إذا زاد الألم.'}
+},
+{ id:'green-theraband', phase:'mid', icon:'🎯',
+name:{en:'Progressive Resistance (Green/Blue Band)', ar:'مقاومة متدرجة (شريط أخضر/أزرق)'},
+area:{en:'Shoulder & Arm', ar:'الكتف والذراع'},
+reps:{en:'10 repetitions', ar:'١٠ تكرارات'},
+freq:{en:'2 times a day', ar:'مرتين يومياً'},
+steps:{
+en:['Progress from a light band to a green or blue band.','Anchor the band at waist height.','Perform shoulder flexion, abduction, and rotation against the band.','Move slowly and control the return phase.','Start with 10 reps and increase gradually.','Stop if the axilla becomes uncomfortable.'],
+ar:['تقدمي من شريط خفيف إلى شريط أخضر أو أزرق.','ثبتي الشريط في مستوى الخصر.','نفذي ثني الكتف والبعد والدوران ضد الشريط.','تحركي ببطء وتحكمي في مرحلة العودة.','ابدئي بـ ١٠ تكرارات وزيدي تدريجياً.','توقفي إذا أصبح الإبط غير مريح.']
+},
+caution:{en:'Use moderate resistance only. Stop if the arm swells or the axilla feels tight.',ar:'استخدمي مقاومة متوسطة فقط. توقفي إذا تورم الذراع أو شدّ الإبط.'}
+},
+{ id:'advanced-strength', phase:'late', icon:'💪',
+name:{en:'Advanced Strengthening', ar:'تقوية متقدمة'},
+area:{en:'Upper Body', ar:'الجزء العلوي من الجسم'},
+reps:{en:'8–12 repetitions', ar:'٨–١٢ تكرار'},
+freq:{en:'3 times a week', ar:'٣ مرات أسبوعياً'},
+steps:{
+en:['Start 3 months after surgery, once your team has cleared you.','Use resistance bands or light free weights.','Include rows, presses, and shoulder raises.','Warm up for 5 minutes first.','Control the movement through the full range.','Increase resistance gradually over weeks.'],
+ar:['ابدئي بعد ٣ أشهر من الجراحة بعد موافقة فريقك الطبي.','استخدمي أشرطة مقاومة أو أوزاناً خفيفة.','شمل السحب والدفع ورفع الكتف.','سخني لمدة ٥ دقائق أولاً.','تحكمي في الحركة عبر المدى الكامل.','زيدي المقاومة تدريجياً على مدى أسابيع.']
+},
+caution:{en:'Watch for swelling or heaviness in the arm. Stop if these appear.',ar:'راقبي أي تورم أو ثقل في الذراع. توقفي إذا ظهرت هذه العلامات.'}
+},
+{ id:'return-sport', phase:'late', icon:'🏊‍♀️',
+name:{en:'Return to Sport & Recreation', ar:'العودة للرياضة والأنشطة'},
+area:{en:'Full Body', ar:'الجسم بالكامل'},
+reps:{en:'Gradual progression', ar:'تقدم تدريجي'},
+freq:{en:'2–3 times a week', ar:'٢–٣ مرات أسبوعياً'},
+steps:{
+en:['Wait at least 3 months after surgery and get medical clearance.','Start with low-impact activities like swimming or walking.','Progress to golf or tennis only after full shoulder movement is restored.','Wear a compression sleeve during exercise if prescribed.','Warm up for 10 minutes before activity.','Stop if the arm swells, feels heavy, or becomes painful.'],
+ar:['انتظري ٣ أشهر على الأقل بعد الجراحة واحصلي على موافقة طبية.','ابدئي بأنشطة منخفضة التأثير مثل السباحة أو المشي.','تقدمي إلى الجولف أو التنس فقط بعد استعادة الحركة الكاملة للكتف.','ارتدِي ضاغطاً طبياً أثناء التمرين إذا وُصف لك.','سخني لمدة ١٠ دقائق قبل النشاط.','توقفي إذا تورم الذراع أو ثقل أو ألم.']
+},
+caution:{en:'Always warm up, and never skip lymphedema precautions.',ar:'سخني دائماً ولا تتخلي عن احتياطات الوذمة اللمفية أبداً.'}
+}
+];
+
+const EDUCATION = [
+{ id:'danger', icon:'🚨',
+title:{en:'Warning Signs — Contact Your Doctor', ar:'علامات الخطر — تواصلي مع طبيبك'},
+items:{
+en:['Sudden shortness of breath or chest pain','Fever above 38°C (100.4°F)','Redness, warmth, or spreading swelling in the arm','Heavy bleeding or fluid leaking from the wound','Severe or worsening pain not relieved by medication','Numbness or weakness in the arm or hand','Sudden swelling of the whole arm'],
+ar:['ضيق مفاجئ في النفس أو ألم في الصدر','حرارة أعلى من ٣٨ درجة مئوية','احمرار أو سخونة أو تورم منتشر في الذراع','نزيف شديد أو تسرب سائل من الجرح','ألم شديد أو يزداد ولا يخففه الدواء','تنميل أو ضعف في الذراع أو اليد','تورم مفاجئ في الذراع بالكامل']
+}
+},
+{ id:'lymph', icon:'💧',
+title:{en:'Lymphedema & Arm Care', ar:'الوذمة اللمفية والعناية بالذراع'},
+items:{
+en:['Use the unaffected arm for blood pressure, blood draws, and injections','Wear gloves for gardening, washing dishes, or cleaning','Avoid cuts, burns, and sunburn on the affected arm','Avoid tight jewellery, watches, or clothing','Avoid heavy lifting (5–10 kg or more) with the affected arm','Elevate the arm on a pillow when resting','Report any new swelling, heaviness, or tightness','Wear a compression sleeve during air travel if prescribed'],
+ar:['استخدمي الذراع السليمة لقياس الضغط وسحب الدم والحقن','ارتدِي قفازات عند الزراعة أو غسل الأطباق أو التنظيف','تجنبي الجروح والحروق وأشعة الشمس على الذراع المصابة','تجنبي المجوهرات الضيقة أو الساعات أو الملابس الضاغطة','تجنبي رفع الأوزان الثقيلة (٥–١٠ كجم أو أكثر) بالذراع المصابة','ارفعي الذراع على وسادة عند الراحة','أبلغي عن أي تورم أو ثقل أو شد جديد','ارتدِي ضاغطاً طبياً أثناء السفر بالطائرة إذا وُصف لك']
+}
+},
+{ id:'wound', icon:'🩹',
+title:{en:'Wound & Scar Care', ar:'العناية بالجرح والأثر'},
+items:{
+en:['Keep the wound clean and dry as instructed','Do not scratch or pick at the scar','Gentle scar massage only after your surgeon allows it','Wear loose, soft clothing over the area','Check the wound daily for redness, heat, or discharge','Follow your drain instructions carefully if you have one'],
+ar:['أبقي الجرح نظيفاً وجافاً حسب التعليمات','لا تحكّي أو تزيلي قشرة الجرح','تدليك الأثر بلطف فقط بعد موافقة الجراح','ارتدِي ملابس فضفاضة وناعمة فوق المنطقة','افحصي الجرح يومياً بحثاً عن احمرار أو سخونة أو إفرازات','اتبعي تعليمات الأنبوب (الدرن) بعناية إن وُجد']
+}
+},
+{ id:'sleep', icon:'🛏️',
+title:{en:'Sleep & Resting Positions', ar:'وضعيات النوم والراحة'},
+items:{
+en:['Sleep on your back or on the unaffected side','Support the affected arm on a pillow','Avoid sleeping on the operated side until cleared','Keep the arm slightly elevated to reduce swelling','Use pillows to make your position comfortable'],
+ar:['نامي على ظهرك أو على الجانب السليم','ادعمي الذراع المصابة على وسادة','تجنبي النوم على الجانب المُجرّى حتى يُسمح بذلك','أبقي الذراع مرفوعة قليلاً لتقليل التورم','استخدمي الوسائد لجعل وضعك مريحاً']
+}
+},
+{ id:'daily', icon:'🚶‍♀️',
+title:{en:'Daily Activities', ar:'الأنشطة اليومية'},
+items:{
+en:['Start with light tasks and progress gradually','Avoid pushing, pulling, or lifting with the affected arm','Wear a supportive, well-fitted bra when cleared','Take short rest breaks during the day','Do not stop moving completely — gentle movement helps healing','Return to sport gradually only after your medical team agrees'],
+ar:['ابدئي بمهام خفيفة وتقدمي تدريجياً','تجنبي الدفع أو السحب أو الرفع بالذراع المصابة','ارتدِي حمالة صدر داعمة ومناسبة عند السماح','خذي فترات راحة قصيرة خلال اليوم','لا تتوقفي عن الحركة تماماً — الحركة اللطيفة تساعد الشفاء','عودي للرياضة تدريجياً فقط بعد موافقة فريقك الطبي']
+}
+}
+];
+
+const SEEK_HELP = {
+en:['Feeling very sad or hopeless for more than 2 weeks','Losing interest in things you usually enjoy','Sleep problems that do not improve','Constant worry that interferes with daily life','Thoughts of harming yourself — seek help immediately'],
+ar:['شعور بالحزن الشديد أو اليأس لأكثر من أسبوعين','فقدان الاهتمام بالأشياء التي تستمتعين بها عادة','مشاكل في النوم لا تتحسن','قلق مستمر يعطّل حياتك اليومية','أفكار بإيذاء نفسك — اطلبي المساعدة فوراً']
+};
+
+const NUTRITION_TOP = {
+en:['Eat balanced meals with protein, vegetables, and whole grains','Drink enough water throughout the day','Include fibre to prevent constipation','Small frequent meals may be easier during recovery'],
+ar:['تناولي وجبات متوازنة تحتوي على بروتين وخضروات وحبوب كاملة','اشربي كمية كافية من الماء خلال اليوم','أضيفي الألياف لمنع الإمساك','الوجبات الصغيرة المتكررة قد تكون أسهل أثناء التعافي']
+};
+
+const NUTRITION_BOTTOM = {
+en:["Do not start supplements without your doctor's approval",'Limit very salty food and sugary drinks','Ask your doctor if you need vitamin D or calcium'],
+ar:['لا تبدأي مكملات غذائية دون موافقة طبيبك','قللي من الأطعمة المالحة جداً والمشروبات السكرية','اسألي طبيبك إذا كنت بحاجة إلى فيتامين د أو الكالسيوم']
+};
+
+const SOURCES = {
+en:['General surgical oncology rehabilitation guidelines','Physical therapy management of post-mastectomy patients','Lymphedema prevention and arm care recommendations','Academic project — Physical Therapy Department'],
+ar:['إرشادات تأهيل مرضى الأورام الجراحية العامة','إدارة العلاج الطبيعي لمرضى ما بعد استئصال الثدي','توصيات الوقاية من الوذمة اللمفية والعناية بالذراع','مشروع أكاديمي — قسم العلاج الطبيعي']
+};
+
+const TIPS = {
+en:[
+'Use your unaffected arm for blood pressure, blood draws and injections.',
+'Wear gloves when gardening or washing dishes.',
+'Elevate your arm on a pillow when resting to reduce swelling.',
+'Gentle movement helps healing more than complete rest.',
+'Apply moisturiser to keep the skin on your arm healthy.',
+'Wear a well-fitted compression sleeve during air travel if prescribed.',
+'Report any new swelling, redness or warmth to your doctor.',
+'Avoid heavy lifting (5–10 kg) with the affected arm.',
+'Small, frequent meals are easier during recovery.',
+'Do not sleep on the operated side until your surgeon clears it.',
+'Try to sleep on your back or on your unaffected side.',
+'Take short rest breaks during the day and listen to your body.'
+ ],
+ar:[
+'استخدمي الذراع السليمة لقياس الضغط وسحب الدم والحقن.',
+'ارتدِي قفازات عند الزراعة أو غسل الأطباق.',
+'ارفعي ذراعك على وسادة عند الراحة لتقليل التورم.',
+'الحركة اللطيفة تساعد الشفاء أكثر من الراحة التامة.',
+'استخدمي مرطباً للحفاظ على صحة جلد ذراعك.',
+'ارتدِي ضاغطاً طبياً أثناء السفر بالطائرة إذا وُصف لك.',
+'أبلغي طبيبك عن أي تورم أو احمرار أو سخونة جديدة.',
+'تجنبي رفع الأوزان الثقيلة (٥-١٠ كجم) بالذراع المصابة.',
+'الوجبات الصغيرة المتكررة أسهل أثناء التعافي.',
+'لا تنامي على الجانب المُجرّى حتى يسمح الجراح.',
+'حاولي النوم على ظهرك أو على الجانب السليم.',
+'خذي فترات راحة قصيرة خلال اليوم واستمعي لجسدك.'
+ ]
+};
+
+const PHASE_DESC = { early:'phaseEarlyDesc', mid:'phaseMidDesc', late:'phaseLateDesc' };
+const PHASE_NAME_KEY = { early:'phaseEarly', mid:'phaseMid', late:'phaseLate' };
+
+/* ============================================================
+HELPERS
+============================================================ */
+function showToast(msg){
+const el = document.getElementById('toast');
+el.textContent = msg;
+el.classList.add('is-visible');
+clearTimeout(showToast._t);
+showToast._t = setTimeout(() => el.classList.remove('is-visible'), 2800);
+}
+
+function getWeekStart(){
+const now = new Date();
+const day = now.getDay();
+const diff = now.getDate() - day;
+const ws = new Date(now.setDate(diff));
+ws.setHours(0,0,0,0);
+return ws;
+}
+
+function escapeHtml(str){
+return String(str).replace(/[&<>"']/g, m => ({
+'&':'&','<':'<','>':'>','"':'"',"'":'''
+})[m]);
+}
+
+/* ============================================================
+LANGUAGE
+============================================================ */
+function applyLanguage(){
+document.documentElement.lang = state.lang;
+document.documentElement.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
+
+document.querySelectorAll('[data-i18n]').forEach(el => {
+const val = t(el.dataset.i18n);
+if (val) el.textContent = val;
+});
+document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+el.placeholder = t(el.dataset.i18nPlaceholder);
+});
+
+document.getElementById('langLabel').textContent = state.lang === 'en' ? 'العربية' : 'English';
+refreshDynamic();
+}
+
+function refreshDynamic(){
+renderPhaseUI();
+renderWeeklyProgress();
+renderTodayRoutine();
+renderTip();
+renderExercises();
+renderEducation();
+renderRecords();
+renderSeekHelp();
+renderNutrition();
+renderSources();
+if (!breath.running){
+document.getElementById('breathLabel').textContent = t('breathingReady');
+}
+updatePainValue();
+syncSwellingUI();
+}
+
+/* ============================================================
+NAVIGATION
+============================================================ */
+const VALID_SCREENS = ['home','exercises','education','tracker','more','psych','nutrition','about'];
+const NAV_MAP = {
+home:'home', exercises:'exercises', education:'education',
+tracker:'tracker', more:'more', psych:'more',
+nutrition:'more', about:'more'
+};
+
+function showScreen(id){
+if (!VALID_SCREENS.includes(id)) return;
+state.screen = id;
+
+document.querySelectorAll('.screen').forEach(s => {
+s.classList.toggle('is-active', s.id === 'screen-' + id);
+});
+
+document.querySelectorAll('.nav-item').forEach(b => {
+b.classList.toggle('is-active', b.dataset.nav === NAV_MAP[id]);
+});
+
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+PHASE
+============================================================ */
+function renderPhaseUI(){
+document.querySelectorAll('#trackerPhasePills button').forEach(b => {
+b.classList.toggle('is-active', b.dataset.phase === state.phase);
+});
+document.getElementById('phaseDescription').textContent = t(PHASE_DESC[state.phase]);
+document.getElementById('exercisePhaseLabel').textContent = t(PHASE_NAME_KEY[state.phase]);
+const label = document.getElementById('progressPhaseLabel');
+if (label) label.textContent = t('currentPhase') + ': ' + t(PHASE_NAME_KEY[state.phase]);
+}
+
+function setPhase(phase){
+if (!PHASE_ORDER[phase]) return;
+state.phase = phase;
+localStorage.setItem('mr_phase', state.phase);
+state.filter = 'all';
+document.querySelectorAll('.filter-chip').forEach(c => {
+c.classList.toggle('is-active', c.dataset.filter === 'all');
+});
+renderPhaseUI();
+renderWeeklyProgress();
+renderTodayRoutine();
+renderExercises();
+showToast(t('toastPhaseChanged', { phase: t(PHASE_NAME_KEY[state.phase]) }));
+}
+
+/* ============================================================
+WEEKLY PROGRESS
+============================================================ */
+function renderWeeklyProgress(){
+const weekStart = getWeekStart();
+const phaseExercises = EXERCISES.filter(x => x.phase === state.phase);
+let doneCount = 0;
+
+phaseExercises.forEach(ex => {
+const history = state.doneHistory[ex.id] || [];
+if (history.some(dateStr => new Date(dateStr) >= weekStart)) doneCount++;
+});
+
+const total = phaseExercises.length;
+const pct = total > 0 ? (doneCount / total) * 100 : 0;
+
+document.getElementById('progressDone').textContent = doneCount;
+document.getElementById('progressTotal').textContent = total;
+document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ============================================================
+TODAY'S ROUTINE
+============================================================ */
+function getTodayRoutine(){
+const list = EXERCISES.filter(x => x.phase === state.phase);
+if (list.length === 0) return [];
+const count = Math.min(3, list.length);
+const dayOfWeek = new Date().getDay();
+const start = (dayOfWeek * count) % list.length;
+const result = [];
+for (let i = 0; i < count; i++){
+result.push(list[(start + i) % list.length]);
+}
+return result;
+}
+
+function renderTodayRoutine(){
+const wrap = document.getElementById('todayRoutine');
+const list = getTodayRoutine();
+if (!list.length){ wrap.innerHTML = ''; return; }
+
+wrap.innerHTML = list.map(ex => {
+const isDone = !!state.doneToday[ex.id];
+return &lt;button class="exercise-card${isDone ? 'is-done' : ''}" data-ex="{ex.icon}</div>
+<div class="ex-body">
+<div class="ex-name">{ex.reps[state.lang]} · ${ex.freq[state.lang]}&lt;/div&gt; &lt;/div&gt; &lt;div class="ex-check"&gt;✓&lt;/div&gt; &lt;/button&gt;;
+}).join('');
+}
+
+/* ============================================================
+TIP OF THE DAY
+============================================================ */
+function renderTip(){
+const tips = TIPS[state.lang];
+const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);
+document.getElementById('tipText').textContent = tips[dayOfYear % tips.length];
+}
+
+/* ============================================================
+EXERCISES LIST
+============================================================ */
+function renderExercises(){
+const wrap = document.getElementById('exerciseList');
+const list = state.filter === 'all'
+? EXERCISES
+: EXERCISES.filter(x => x.phase === state.filter);
+
+if (!list.length){
+wrap.innerHTML = <div class="empty-state"&gt;—&lt;/div>;
+return;
+}
+
+wrap.innerHTML = list.map(ex => {
+const isDone = !!state.doneToday[ex.id];
+const isLocked = !isExerciseUnlocked(ex.phase);
+const isFromPastPhase = PHASE_ORDER[ex.phase] < PHASE_ORDER[state.phase];
+const phaseName = t(PHASE_NAME_KEY[ex.phase]);
+
+if (isLocked){
+return &lt;button class="exercise-card is-locked" data-ex="${ex.id}" data-locked="1" type="button">
+<div class="ex-emoji">{ex.name[state.lang]}</div>
+<div class="ex-meta">{ex.freq[state.lang]}</div>
+<span class="ex-badge locked">latex
+{t('exerciseInPhase', { phase: phaseName })}&lt;/span&gt; &lt;/div&gt; &lt;div class="ex-lock"&gt;🔒&lt;/div&gt; &lt;/button&gt; `; } return ` &lt;button class="exercise-card 
+
+{isDone ? 'is-done' : ''}" data-ex="{ex.icon}</div>
+<div class="ex-body">
+<div class="ex-name">{ex.reps[state.lang]} · {isFromPastPhase ? <span class="ex-badge past"&gt;${t('exerciseInPhase', { phase: phaseName })}</span>: ''} &lt;/div&gt; &lt;div class="ex-check"&gt;✓&lt;/div&gt; &lt;/button&gt;;
+}).join('');
+
+updateCounter();
+}
+
+function updateCounter(){
+const count = Object.keys(state.doneToday).length;
+document.getElementById('doneCounter').textContent = count;
+}
+
+function setFilter(filter){
+state.filter = filter;
+document.querySelectorAll('.filter-chip').forEach(c => {
+c.classList.toggle('is-active', c.dataset.filter === filter);
+});
+renderExercises();
+}
+
+/* ============================================================
+EXERCISE MODAL
+============================================================ */
+let currentExerciseId = null;
+
+function openExercise(id){
+const ex = EXERCISES.find(x => x.id === id);
+if (!ex) return;
+
+const isLocked = !isExerciseUnlocked(ex.phase);
+currentExerciseId = id;
+
+document.getElementById('modalIcon').textContent = ex.icon;
+document.getElementById('modalTitle').textContent = ex.name[state.lang];
+document.getElementById('modalMeta').textContent =
+``${t('area')}: {ex.reps[state.lang]}`;
+
+const stepsHtml = ex.steps[state.lang].map(s => <li&gt;${s}</li>).join(''); let bodyHtml =<h4>${t('howTo')}&lt;/h4&gt;&lt;ol&gt;${stepsHtml}</ol>; bodyHtml +=<div class="modal-caution"><strong>${t('caution')}:&lt;/strong&gt; ${ex.caution[state.lang]}</div>`;
+
+if (isLocked){
+bodyHtml += <div class="modal-locked-note"&gt;🔒${t('toastLocked')}</div>`;
+}
+document.getElementById('modalBody').innerHTML = bodyHtml;
+
+const doneBtn = document.getElementById('modalDone');
+if (isLocked){
+doneBtn.disabled = true;
+doneBtn.textContent = t('markDone');
+} else if (state.doneToday[id]){
+doneBtn.disabled = true;
+doneBtn.textContent = t('done');
+} else {
+doneBtn.disabled = false;
+doneBtn.textContent = t('markDone');
+}
+
+const modal = document.getElementById('exerciseModal');
+modal.classList.add('is-open');
+modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeModal(){
+const modal = document.getElementById('exerciseModal');
+modal.classList.remove('is-open');
+modal.setAttribute('aria-hidden', 'true');
+currentExerciseId = null;
+}
+
+function markDone(id){
+state.doneToday[id] = true;
+localStorage.setItem('mr_done', JSON.stringify(state.doneToday));
+
+const today = new Date().toDateString();
+if (!state.doneHistory[id]) state.doneHistory[id] = [];
+if (!state.doneHistory[id].includes(today)){
+state.doneHistory[id].push(today);
+}
+localStorage.setItem('mr_history', JSON.stringify(state.doneHistory));
+
+renderExercises();
+renderTodayRoutine();
+renderWeeklyProgress();
+}
+
+/* ============================================================
+DAILY RESET
+============================================================ */
+function checkDailyReset(){
+const today = new Date().toDateString();
+const saved = localStorage.getItem('mr_done_date');
+if (saved !== today){
+state.doneToday = {};
+localStorage.setItem('mr_done', '{}');
+localStorage.setItem('mr_done_date', today);
+}
+}
+
+/* ============================================================
+EDUCATION
+============================================================ */
+function renderEducation(){
+const wrap = document.getElementById('educationList');
+wrap.innerHTML = EDUCATION.map(sec => &lt;div class="acc-item" data-acc="${sec.id}">
+<button class="acc-head" type="button">
+<span class="acc-icon">${sec.icon}&lt;/span&gt; &lt;span class="acc-title"&gt;${sec.title[state.lang]}</span>
+<span class="acc-arrow">›</span>
+</button>
+<div class="acc-body">
+<div class="acc-body-inner">
+<ul class="bullet-list">
+${sec.items[state.lang].map(i =&gt;<li>${i}&lt;/li>).join('')}
+</ul>
+</div>
+</div>
+</div>
+`).join('');
+}
+
+/* ============================================================
+TRACKER
+============================================================ */
+const painSlider = document.getElementById('painSlider');
+const painValue = document.getElementById('painValue');
+
+function updatePainValue(){ painValue.textContent = painSlider.value; }
+
+function syncSwellingUI(){
+document.querySelectorAll('.swelling-btn').forEach(b => {
+b.classList.toggle('is-active', b.dataset.swelling === state.swelling);
+});
+}
+
+function saveRecord(){
+if (!state.swelling){
+showToast(t('toastSelectSwelling'));
+return;
+}
+const record = {
+id: Date.now(),
+date: new Date().toISOString(),
+phase: state.phase,
+pain: parseInt(painSlider.value, 10),
+swelling: state.swelling,
+mobility: document.getElementById('mobilitySelect').value,
+notes: document.getElementById('notesInput').value.trim()
+};
+state.records.unshift(record);
+if (state.records.length > 50) state.records.pop();
+localStorage.setItem('mr_records', JSON.stringify(state.records));
+
+renderRecords();
+
+document.getElementById('notesInput').value = '';
+painSlider.value = 0;
+updatePainValue();
+document.querySelectorAll('.swelling-btn').forEach(b => b.classList.remove('is-active'));
+state.swelling = null;
+
+const btn = document.getElementById('saveRecord');
+btn.textContent = '✓';
+setTimeout(() => { btn.textContent = t('saveRecord'); }, 1200);
+}
+
+function painColor(p){
+if (p <= 3) return { bg:'#E5F3E9', fg:'#2E7D5B' };
+if (p <= 6) return { bg:'#FDF3E3', fg:'#A56D1E' };
+return { bg:'#FBE8EA', fg:'#A02A34' };
+}
+
+function renderRecords(){
+const wrap = document.getElementById('recordsList');
+const list = state.records.slice(0, 7);
+
+if (!list.length){
+wrap.innerHTML = <div class="empty-state"&gt;&lt;span class="empty-emoji"&gt;📋&lt;/span&gt;${t('noRecords')}</div>`;
+return;
+}
+
+const swMap = { none:'swellingNoneT', mild:'swellingMildT', moderate:'swellingModerateT', severe:'swellingSevereT' };
+const mobMap = { better:'mobilityBetter', same:'mobilitySame', worse:'mobilityWorse' };
+
+wrap.innerHTML = list.map(r => {
+const c = painColor(r.pain);
+const d = new Date(r.date);
+const dateStr = d.toLocaleDateString(state.lang === 'ar' ? 'ar-EG' : 'en-GB',
+{ day:'2-digit', month:'short', year:'numeric' });
+return &lt;div class="record-card"&gt; &lt;div class="record-top"&gt; &lt;span class="record-date"&gt;${dateStr}</span>
+<span class="record-pain" style="background:${c.bg};color:${c.fg}">
+${t('painLevel')}: ${r.pain}/10
+</span>
+</div>
+<div class="record-tags">
+<span class="tag">${t(swMap[r.swelling] || 'swellingNoneT')}&lt;/span&gt; &lt;span class="tag"&gt;${t(mobMap[r.mobility] || 'mobilitySame')}</span>
+</div>
+${r.notes ?<div class="record-notes">${escapeHtml(r.notes)}&lt;/div> : ''}
+</div>
+`;
+}).join('');
+}
+
+async function exportReport(){
+if (!state.records.length){ alert(t('reportEmpty')); return; }
+const swMap = { none:'swellingNoneT', mild:'swellingMildT', moderate:'swellingModerateT', severe:'swellingSevereT' };
+const mobMap = { better:'mobilityBetter', same:'mobilitySame', worse:'mobilityWorse' };
+
+let txt = MY RECOVERY — FOLLOW-UP REPORT\n;
+txt += Generated:${new Date().toLocaleString()}\n; txt +=Recovery phase: ${t(PHASE_NAME_KEY[state.phase])}\n\n;
+
+state.records.slice(0, 7).forEach((r, i) => {
+const d = new Date(r.date).toLocaleString();
+txt += ``${i + 1}. latex
+{d}\n`; txt += ` Pain: 
+
+{r.pain}/10 | Swelling: {t(mobMap[r.mobility] || 'mobilitySame')}\n; if (r.notes) txt += Notes: ${r.notes}\n;
+txt += \n;
+});
+
+try{
+await navigator.clipboard.writeText(txt);
+alert(t('reportCopied'));
+} catch(err){
+const ta = document.createElement('textarea');
+ta.value = txt;
+document.body.appendChild(ta); ta.select();
+document.execCommand('copy');
+document.body.removeChild(ta);
+alert(t('reportCopied'));
+}
+}
+
+/* ============================================================
+BREATHING
+============================================================ */
+const breath = { running:false, phase:'out', timer:null };
+
+function startBreathing(){
+breath.running = true;
+breath.phase = 'out';
+document.getElementById('breathStart').classList.add('hidden');
+document.getElementById('breathStop').classList.remove('hidden');
+breathTick();
+}
+
+function breathTick(){
+if (!breath.running) return;
+breath.phase = breath.phase === 'in' ? 'out' : 'in';
+const circle = document.getElementById('breathCircle');
+const label = document.getElementById('breathLabel');
+if (breath.phase === 'in'){
+circle.classList.add('inhale');
+label.textContent = t('breathingIn');
+} else {
+circle.classList.remove('inhale');
+label.textContent = t('breathingOut');
+}
+breath.timer = setTimeout(breathTick, 4000);
+}
+
+function stopBreathing(){
+breath.running = false;
+clearTimeout(breath.timer);
+document.getElementById('breathCircle').classList.remove('inhale');
+document.getElementById('breathLabel').textContent = t('breathingReady');
+document.getElementById('breathStart').classList.remove('hidden');
+document.getElementById('breathStop').classList.add('hidden');
+}
+
+/* ============================================================
+MOOD
+============================================================ */
+function selectMood(mood){
+document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('is-active'));
+const btn = document.querySelector(.mood-btn[data-mood="${mood}"]`);
+if (btn) btn.classList.add('is-active');
+const map = {
+calm:'moodRespCalm', anxious:'moodRespAnxious',
+sad:'moodRespSad', tired:'moodRespTired', hopeful:'moodRespHopeful'
+};
+const resp = document.getElementById('moodResponse');
+resp.textContent = t(map[mood]);
+resp.classList.remove('hidden');
+}
+
+/* ============================================================
+SEEK HELP / NUTRITION / SOURCES
+============================================================ */
+function renderSeekHelp(){
+document.getElementById('seekHelpList').innerHTML =
+SEEK_HELP[state.lang].map(i => <li&gt;${i}</li>).join(''); } function renderNutrition(){ document.getElementById('nutritionTipsTop').innerHTML = NUTRITION_TOP[state.lang].map(i =&gt;<li>${i}&lt;/li>).join('');
+document.getElementById('nutritionTipsBottom').innerHTML =
+NUTRITION_BOTTOM[state.lang].map(i => <li&gt;${i}</li>).join(''); } function renderSources(){ document.getElementById('sourcesList').innerHTML = SOURCES[state.lang].map(i =&gt;<li>${i}&lt;/li>).join('');
+}
+
+/* ============================================================
+BMI
+============================================================ */
+function calcBMI(){
+const h = parseFloat(document.getElementById('heightInput').value);
+const w = parseFloat(document.getElementById('weightInput').value);
+const box = document.getElementById('bmiResult');
+
+if (!h || !w || h < 50 || h > 250 || w < 20 || w > 400){
+box.classList.remove('hidden');
+box.innerHTML = <div class="bmi-note" style="color:#A02A34"&gt;${t('bmiInvalid')}</div>`;
+return;
+}
+const bmi = w / Math.pow(h / 100, 2);
+const val = bmi.toFixed(1);
+let catKey, color;
+if (bmi < 18.5){ catKey = 'bmiUnder'; color = '#4A7DB0'; }
+else if (bmi < 25){ catKey = 'bmiNormal'; color = '#2E7D5B'; }
+else if (bmi < 30){ catKey = 'bmiOver'; color = '#A56D1E'; }
+else { catKey = 'bmiObese'; color = '#A02A34'; }
+
+box.classList.remove('hidden');
+box.innerHTML = &lt;div class="bmi-number" style="color:${color}">{color}">{t('bmiNote')}</div>
+`;
+}
+
+/* ============================================================
+LANGUAGE TOGGLE
+============================================================ */
+function toggleLang(){
+state.lang = state.lang === 'en' ? 'ar' : 'en';
+localStorage.setItem('mr_lang', state.lang);
+if (breath.running) stopBreathing();
+applyLanguage();
+}
+
+/* ============================================================
+GLOBAL CLICK HANDLER (unified — single source of truth)
+============================================================ */
+document.addEventListener('click', e => {
+
+// 1) Close modal (backdrop / close button)
+const closeBtn = e.target.closest('[data-close-modal]');
+if (closeBtn){
+e.preventDefault();
+closeModal();
+return;
+}
+
+// 2) Navigation buttons (bottom nav, quick cards, menu items, back buttons)
+const navBtn = e.target.closest('[data-nav]');
+if (navBtn){
+e.preventDefault();
+showScreen(navBtn.dataset.nav);
+return;
+}
+
+// 3) Exercise card (open modal)
+const exBtn = e.target.closest('[data-ex]');
+if (exBtn){
+e.preventDefault();
+if (exBtn.dataset.locked === '1'){
+showToast(t('toastLocked'));
+return;
+}
+openExercise(exBtn.dataset.ex);
+return;
+}
+
+// 4) Phase pills
+const phaseBtn = e.target.closest('#trackerPhasePills [data-phase]');
+if (phaseBtn){
+e.preventDefault();
+setPhase(phaseBtn.dataset.phase);
+return;
+}
+
+// 5) Filter chips
+const filterChip = e.target.closest('.filter-chip[data-filter]');
+if (filterChip){
+e.preventDefault();
+setFilter(filterChip.dataset.filter);
+return;
+}
+
+// 6) Swelling buttons
+const swellingBtn = e.target.closest('.swelling-btn[data-swelling]');
+if (swellingBtn){
+e.preventDefault();
+state.swelling = swellingBtn.dataset.swelling;
+syncSwellingUI();
+return;
+}
+
+// 7) Mood buttons
+const moodBtn = e.target.closest('.mood-btn[data-mood]');
+if (moodBtn){
+e.preventDefault();
+selectMood(moodBtn.dataset.mood);
+return;
+}
+
+// 8) Education accordion
+const accHead = e.target.closest('.acc-head');
+if (accHead){
+e.preventDefault();
+const item = accHead.parentElement;
+const isOpen = item.classList.contains('is-open');
+document.querySelectorAll('.acc-item').forEach(i => i.classList.remove('is-open'));
+if (!isOpen) item.classList.add('is-open');
+return;
+}
+
+// 9) Modal "Mark as done"
+if (e.target.closest('#modalDone')){
+e.preventDefault();
+if (!currentExerciseId) return;
+const ex = EXERCISES.find(x => x.id === currentExerciseId);
+if (!ex || !isExerciseUnlocked(ex.phase)) return;
+markDone(currentExerciseId);
+closeModal();
+return;
+}
+
+// 10) Save record
+if (e.target.closest('#saveRecord')){
+e.preventDefault();
+saveRecord();
+return;
+}
+
+// 11) Export report
+if (e.target.closest('#exportReport')){
+e.preventDefault();
+exportReport();
+return;
+}
+
+// 12) Breathing start / stop
+if (e.target.closest('#breathStart')){
+e.preventDefault();
+startBreathing();
+return;
+}
+if (e.target.closest('#breathStop')){
+e.preventDefault();
+stopBreathing();
+return;
+}
+
+// 13) BMI calc
+if (e.target.closest('#calcBMI')){
+e.preventDefault();
+calcBMI();
+return;
+}
+
+// 14) Language toggle
+if (e.target.closest('#langToggle')){
+e.preventDefault();
+toggleLang();
+return;
+}
+
+// 15) Contact clinic
+if (e.target.closest('#contactClinic')){
+e.preventDefault();
+window.location.href = 'tel:+201000000000';
+return;
+}
+});
+
+/* Pain slider input listener */
+painSlider.addEventListener('input', updatePainValue);
+
+/* ============================================================
+INIT
+============================================================ */
+function init(){
+checkDailyReset();
+applyLanguage();
+showScreen('home');
+}
+
+if (document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', init);
+} else {
+init();
+}
+</script>
+</body>
+</html>
